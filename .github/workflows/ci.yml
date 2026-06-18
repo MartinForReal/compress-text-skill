@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate manifests and run evaluation suite
+        run: ./scripts/validate.sh
+
+      - name: Build skill bundle
+        run: ./scripts/build-skill-bundle.sh
+
+      - name: Upload skill bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: compress-text-skill-bundle
+          path: dist/compress-text-skill.zip

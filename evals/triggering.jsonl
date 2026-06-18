@@ -1,0 +1,27 @@
+{"id": "trig-01", "text": "Compress this text so it fits in fewer tokens.", "should_trigger": true, "category": "obvious"}
+{"id": "trig-02", "text": "This README is super bloated and repetitive, can you tighten it up?", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-03", "text": "Shrink my meeting notes but keep every decision and action item.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-04", "text": "Reduce the context-window footprint of this prompt.", "should_trigger": true, "category": "obvious"}
+{"id": "trig-05", "text": "Deduplicate and consolidate these overlapping paragraphs.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-06", "text": "Restructure this doc to be leaner without losing meaning.", "should_trigger": true, "category": "obvious"}
+{"id": "trig-07", "text": "Make this denser for an LLM system prompt.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-08", "text": "How effective is this compression? Measure the size reduction.", "should_trigger": true, "category": "obvious"}
+{"id": "trig-09", "text": "Trim the filler and hedging out of this passage.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-10", "text": "Optimize this transcript so it's shorter to store.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-11", "text": "Can you condense this so it uses less space but says the same thing?", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-12", "text": "Cut these instructions down while keeping all the steps.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-13", "text": "Compress this email template but keep the {{ handlebars }} tags untouched.", "should_trigger": true, "category": "template"}
+{"id": "trig-14", "text": "Compress this and emit it into my output template with the slots filled.", "should_trigger": true, "category": "template"}
+{"id": "trig-15", "text": "Make this system prompt denser so it uses fewer tokens.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-16", "text": "压缩这段中文文字，但保留原来的意思。", "should_trigger": true, "category": "non-english"}
+{"id": "trig-17", "text": "Consolidate these four sections and drop the duplicated sentences.", "should_trigger": true, "category": "paraphrase"}
+{"id": "notrig-01", "text": "Summarize the key takeaways and give me your conclusion.", "should_trigger": false, "category": "analysis"}
+{"id": "notrig-02", "text": "Translate this paragraph into French.", "should_trigger": false, "category": "unrelated"}
+{"id": "notrig-03", "text": "Explain what this regex does.", "should_trigger": false, "category": "unrelated"}
+{"id": "notrig-04", "text": "Write a unit test for this function.", "should_trigger": false, "category": "unrelated"}
+{"id": "notrig-05", "text": "Expand this outline into a full essay.", "should_trigger": false, "category": "opposite"}
+{"id": "notrig-06", "text": "Compress these PNG images to save disk space.", "should_trigger": false, "category": "wrong-domain"}
+{"id": "notrig-07", "text": "Gzip this folder before uploading it.", "should_trigger": false, "category": "wrong-domain"}
+{"id": "notrig-08", "text": "What's the sentiment of this customer review?", "should_trigger": false, "category": "analysis"}
+{"id": "notrig-09", "text": "Add more detail and examples to flesh out this draft.", "should_trigger": false, "category": "opposite"}
+{"id": "notrig-10", "text": "Proofread this for grammar and spelling mistakes.", "should_trigger": false, "category": "unrelated"}
