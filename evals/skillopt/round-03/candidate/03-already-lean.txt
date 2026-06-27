@@ -1,0 +1,23 @@
+## Compressed text: Run `npm test` before pushing.
+
+Run `npm test` before pushing.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Original sentence | ~0% | 2/2 | yes |
+| B         | Condition-first sentence | ~0% | 2/2 | yes |
+Selected: A - already lean; reordering gives no size reduction and no clearer structure.
+
+### Preserved intact
+- 1 instruction/requirement, 1 reference, 1 verbatim span/example, structure
+
+### How it was compressed
+- MECE grouping: one instruction with one command; nothing overlaps or remains ungrouped.
+- Pyramid rephrasing: none; the original is already key-point-first and shortest safe form.
+- Removed as unrelated: None; no filler or redundancy was present.
+
+### Estimated size reduction
+~5 words -> ~5 words (~0% smaller)

@@ -1,0 +1,30 @@
+## Compressed text: Hi {{ customer.first_name }}
+
+Hi {{ customer.first_name }},
+
+Your order number {{ order.id }} has shipped and is on its way. {% if order.express %}Because you chose express shipping, your package should arrive very soon.{% endif %}
+
+Track your package here: {{ tracking_url }}. Thank you for shopping with us.
+
+Best regards,
+The ${STORE_NAME} Team
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Greeting, shipment status, conditional express note, tracking, signoff | ~55%    | 7/7    | yes      |
+| B         | Customer message, order state, delivery/tracking, appreciation | ~48%    | 7/7    | yes      |
+Selected: A - It removes filler while preserving the email structure and every template tag exactly.
+
+### Preserved intact
+- 0 instructions/requirements, 6 references, 6 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: greeting, shipped-order notice, express conditional, tracking action, thanks, and signoff.
+- Pyramid rephrasing: stated the shipment update first, then conditional delivery timing and tracking link.
+- Removed as unrelated: filler about writing today, emphasizing sincerity, clicking “right here,” and excessive appreciation.
+
+### Estimated size reduction
+~95 words -> ~43 (~55% smaller)

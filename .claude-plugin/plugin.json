@@ -19,6 +19,8 @@
     "summarize",
     "restructure",
     "deduplicate",
+    "transcript-cleanup",
+    "self-correction",
     "mece",
     "pyramid-principle",
     "skill"

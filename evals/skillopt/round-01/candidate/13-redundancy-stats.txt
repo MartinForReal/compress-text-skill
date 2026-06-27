@@ -1,0 +1,24 @@
+## Compressed text: The cache layer improves performance
+
+Cache layer: read-heavy system → significant performance gain; entries TTL=300s; invalidate cache on every write.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Cache behavior by claim | ~70% | 4/4 | yes |
+| B         | Dense cache facts line | ~77% | 4/4 | yes |
+Selected: B - It preserved the performance, workload, TTL, and invalidation requirements with the largest dense-mode reduction.
+
+### Preserved intact
+- 4 instructions/requirements/key claims, 4 references/names/numbers, 0 verbatim spans/examples, dense fact-line structure
+
+### How it was compressed
+- MECE grouping: Consolidated performance/workload, TTL, and write-invalidation facts into one dense cache line.
+- Redundancy removed: 7 duplicate or entailed sentence-level restatements consolidated across performance, TTL, and write-invalidation groups.
+- Pyramid rephrasing: Kept only the strongest specific claim in each group and used dense notation.
+- Removed as unrelated: None.
+
+### Estimated size reduction
+~66 words -> ~15 (~77% smaller)

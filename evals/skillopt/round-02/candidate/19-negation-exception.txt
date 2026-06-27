@@ -1,0 +1,28 @@
+## Compressed text: Access policy for production logs
+
+Production log access policy:
+- Engineers may read production logs.
+- Engineers must never export logs to personal devices or personal cloud accounts.
+- Contractors may read logs only when they have signed the current NDA and a manager has granted temporary, time-boxed access; otherwise they may not read them.
+- No one may disable audit logging under any circumstances, even briefly for debugging.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Actor rules and universal prohibitions | ~39%    | 5/5    | yes      |
+| B         | Allowed access, denied actions, exceptions, audit control | ~36%    | 5/5    | yes      |
+Selected: A - It preserves each exact rule while cutting duplicate access phrasing and non-rule scope context.
+
+### Preserved intact
+- 4 instructions/requirements, 1 reference, 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: engineer access/export rules, contractor exception rule, and universal audit-logging prohibition.
+- Redundancy removed: 1 duplicate/near-duplicate engineer-read sentence consolidated.
+- Pyramid rephrasing: led with the access policy, then listed each actor or universal rule with its exception/qualifier.
+- Removed as unrelated: general-rule framing, restatement framing, and scope-setting context about normal daily work.
+
+### Estimated size reduction
+~99 words -> ~60 (~39% smaller)

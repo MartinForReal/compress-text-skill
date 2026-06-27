@@ -1,0 +1,37 @@
+## Compressed text: Setup
+
+## Setup
+- Install Node 20.
+- Copy `.env.example` to `.env`.
+
+## Configuration
+In `.env`:
+- Set `DATABASE_URL` to your Postgres instance.
+- Set `PORT` if needed; default is 8080.
+
+## Running
+After setup, run `npm start`; the app uses the configured `PORT`.
+
+## Troubleshooting
+If the app will not start, check `DATABASE_URL`; most start-up failures come from a missing or wrong value.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Workflow stage | ~46%    | 10/10    | yes      |
+| B         | Prerequisites, environment variables, operation, diagnosis | ~42%    | 10/10    | yes      |
+Selected: A - It keeps the original operational flow, consolidates repeated setup/configuration notes, and stays leanest.
+
+### Preserved intact
+- 10 instructions/requirements, 8 references, 7 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: setup prerequisites, environment configuration, running command, and troubleshooting check.
+- Redundancy removed: 4 duplicate/near-duplicate sentences consolidated.
+- Pyramid rephrasing: kept section headings, led each section with the required action, then nested defaults or failure causes.
+- Removed as unrelated: repeated setup reminders and cross-references once their required action remained in Setup.
+
+### Estimated size reduction
+~102 words -> ~55 (~46% smaller)

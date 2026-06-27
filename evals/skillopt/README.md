@@ -1,0 +1,75 @@
+# SkillOpt round artifacts
+
+Rollout trajectories (the frozen agent's actual outputs) captured during each
+[SkillOpt](https://microsoft.github.io/SkillOpt/) optimization round. They are the
+*evidence* the optimization log reasons over, kept in-repo so every accept/reject
+decision is reproducible.
+
+```
+skillopt/
+├── round-01/
+│   ├── baseline/    # outputs of the pre-edit (committed) skill on the held-out cases
+│   └── candidate/   # outputs of the post-edit skill on held-out + train-anchor cases
+├── round-02/
+│   ├── baseline/    # pre-edit skill on the refreshed held-out cases (19–22)
+│   └── candidate/   # post-edit skill on held-out + aggressive over-cut anchors (04/05/09)
+├── round-03/        # REJECTED edit — kept as the evidence behind the no-ship decision
+│   ├── baseline/    # committed skill on the refreshed held-out cases (23–26), 1/4
+│   └── candidate/   # trial (since-reverted) edit on held-out (0/4) + restraint anchors (03/04/16)
+├── round-04/        # ACCEPTED edit — Structural (key-point tree) lens
+│   ├── baseline/    # committed skill on the new held-out cases (27–28), 1/2
+│   └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/16/09, 4/4)
+└── round-05/        # ACCEPTED edit — compact split/merge output shape
+    ├── baseline/    # committed skill on split-focused held-out cases (29–30), 0/2
+    └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/09/16/27/28, 6/6)
+```
+
+Each file is named `<case_id>.txt` and contains exactly what an end user would receive.
+Re-score any directory deterministically (no model/credentials needed):
+
+```bash
+# round 01 — held-out gate
+python3 evals/run_functional.py --grade evals/skillopt/round-01/baseline  --split val
+python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate --split val
+# round 01 — train no-regression anchors
+python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate \
+  --cases 01-bloated-readme,03-already-lean,13-redundancy-stats
+
+# round 02 — refreshed held-out gate (cases 19–22)
+python3 evals/run_functional.py --grade evals/skillopt/round-02/baseline \
+  --cases 19-negation-exception,20-conditional-branches,21-numeric-fidelity,22-conflicting-facts-flag
+python3 evals/run_functional.py --grade evals/skillopt/round-02/candidate \
+  --cases 19-negation-exception,20-conditional-branches,21-numeric-fidelity,22-conflicting-facts-flag
+# round 02 — aggressive over-cut anchors
+python3 evals/run_functional.py --grade evals/skillopt/round-02/candidate \
+  --cases 04-preserve-verbatim,05-template-tags,09-multi-section-doc
+
+# round 03 — refreshed held-out gate (cases 23–26): baseline 1/4 vs trial candidate 0/4 (NOT improved -> edit rejected)
+python3 evals/run_functional.py --grade evals/skillopt/round-03/baseline \
+  --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
+  --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+# round 03 — restraint anchors (the edit's risk direction; all clean)
+python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
+  --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition
+
+# round 04 — new held-out gate (cases 27–28): baseline 1/2 vs candidate 2/2 (improved -> edit accepted)
+python3 evals/run_functional.py --grade evals/skillopt/round-04/baseline \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+# round 04 — no-regression anchors (over-merge / over-cut risk; all clean)
+python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
+  --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition,09-multi-section-doc
+
+# round 05 — split-focused held-out gate (cases 29–30): baseline 0/2 vs candidate 2/2 (improved -> edit accepted)
+python3 evals/run_functional.py --grade evals/skillopt/round-05/baseline \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
+# round 05 — no-regression anchors (title/body compactness + prior structural behavior; all clean)
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate \
+  --cases 03-already-lean,04-preserve-verbatim,09-multi-section-doc,16-meaningful-repetition,27-cross-context-keypoint-tree,28-merge-shared-core
+```
+
+See [`../OPTIMIZATION_LOG.md`](../OPTIMIZATION_LOG.md) for the full round write-up.

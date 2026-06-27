@@ -1,0 +1,31 @@
+## Compressed text: Onboarding — Internal systems access
+
+# Onboarding — Internal systems access
+
+1. Use the corporate VPN for all internal-system access.
+2. Request access in #it-help:
+   - Repository: enable 2FA on your account.
+   - Database: get DBA sign-off before provisioning.
+3. Enable full-disk encryption before any company laptop touches an internal system.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared prerequisite, then request/laptop requirements | ~57% | 6/6 | yes |
+| B         | Original document type with shared VPN factored out | ~49% | 6/6 | yes |
+| C         | Reader workflow: connect, request access, prepare laptop | ~53% | 6/6 | yes |
+Selected: A - it preserved every requirement while removing the shared VPN repetition and avoiding extra section labels.
+
+### Preserved intact
+- 6 instructions/requirements, 4 references/named terms, 0 verbatim spans/examples, combined onboarding structure
+
+### How it was compressed
+- MECE grouping: consolidated the three docs into universal VPN access, access-request requirements, and laptop readiness.
+- Redundancy removed: 2 duplicate/near-duplicate sentences consolidated.
+- Pyramid rephrasing: led with the universal prerequisite, then nested repository/database qualifiers under the shared request step.
+- Removed as unrelated: nothing; all source content served the onboarding purpose.
+
+### Estimated size reduction
+~94 words -> ~40 words (~57% smaller)

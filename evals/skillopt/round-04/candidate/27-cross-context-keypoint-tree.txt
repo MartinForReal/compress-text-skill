@@ -1,0 +1,31 @@
+## Compressed text: Onboarding — Internal system access and setup
+
+# Onboarding — Internal system access and setup
+
+Internal system access requires the corporate VPN. Company laptops need full-disk encryption before touching internal systems.
+
+Request repository or database access in #it-help:
+- Repositories also require 2FA on your account.
+- Databases also require DBA sign-off before provisioning.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared prerequisites + access-type deltas | ~54% | 10/10 | yes |
+| B         | Original document type | ~43% | 10/10 | yes |
+| C         | Onboarding workflow stage | ~50% | 10/10 | yes |
+Selected: A - it hoists the VPN requirement across all documents and #it-help access request across repository/database branches while preserving each unique requirement once.
+
+### Preserved intact
+- 6 instructions/requirements, 4 references, 0 verbatim spans/examples, merged shared-core structure
+
+### How it was compressed
+- MECE grouping: consolidated shared internal-system prerequisites, shared access-request instructions, and per-resource requirements.
+- Redundancy removed: 3 duplicate/near-duplicate sentences consolidated
+- Pyramid rephrasing: led with the universal access requirement, then nested repository, database, and laptop-specific conditions.
+- Removed as unrelated: none.
+
+### Estimated size reduction
+~95 words -> ~44 words (~54% smaller)

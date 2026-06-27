@@ -1,0 +1,24 @@
+## Compressed text: `calculateTax(amount)` tax API
+
+`calculateTax(amount)`: amount × tax rate (0.0825); e.g., `calculateTax(200)` → 16.50. API: POST /api/v2/tax; header `X-Api-Key: ${API_KEY}`. Constraints: never hardcode 0.0825 elsewhere; endpoint version v2, not v1.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Function, API, constraints | ~55% | 7/7 | yes |
+| B         | Verbatim spans, then rules | ~45% | 7/7 | yes |
+| C         | Original order tightened | ~42% | 7/7 | yes |
+Selected: A - It gives the largest reduction while preserving every code span, number, identifier, example, endpoint, header, and constraint.
+
+### Preserved intact
+- 7 instructions/requirements, 0 references, 9 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: function behavior/example, API access, and constraints separated without overlap
+- Pyramid rephrasing: converted full sentences to dense key-first fragments and cut filler framing
+- Removed as unrelated: nothing; only non-factual phrasing was cut
+
+### Estimated size reduction
+~53 words -> ~24 words (~55% smaller)

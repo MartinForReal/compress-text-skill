@@ -1,0 +1,28 @@
+## Compressed text: Project status update
+
+Project status update.
+
+- Login feature completed this week.
+- Testing is ongoing.
+- Deadline is October 30th.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Status facts as bullets | ~79% | 3/3 | yes |
+| B         | One-sentence status line | ~76% | 3/3 | yes |
+Selected: A - It retained the specific status facts, removed repeated phrasing, and kept the readable status-update structure.
+
+### Preserved intact
+- 3 key claims/requirements, 1 date reference, 0 verbatim spans/examples, status-update structure
+
+### How it was compressed
+- MECE grouping: Grouped the update into login, testing, and deadline facts.
+- Redundancy removed: 3 duplicate/near-duplicate fact pairs consolidated: login completion, testing continuation, and October 30 deadline.
+- Pyramid rephrasing: Replaced verbose status prose with direct bullets.
+- Removed as unrelated: Low-density filler and vacuous status-padding were dropped, including generic progress statements and "overall, things are going well" / "pleased with progress."
+
+### Estimated size reduction
+~72 words -> ~15 (~79% smaller)

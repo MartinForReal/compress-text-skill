@@ -1,0 +1,30 @@
+## Compressed text: Release checklist
+
+Before publishing, verify signatures for all three artifacts because each uses a different key:
+- installer
+- SDK package
+- documentation bundle
+
+After all three signatures check out, publish the build to the mirror.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Required artifacts, then publish | ~44% | 5/5 | yes |
+| B         | Original chronological order | ~35% | 5/5 | yes |
+| C         | Key requirement first | ~31% | 5/5 | yes |
+Selected: A - It collapses the repeated signature wording once while keeping all three required artifact checks and the publish step.
+
+### Preserved intact
+- 5 instructions/requirements, 0 references, 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: grouped the three mandatory signature checks under one artifact list, then kept publishing as the final step
+- Redundancy removed: 2 duplicate/near-duplicate signature-check sentences consolidated
+- Pyramid rephrasing: led with the required pre-publish checks and nested the artifact list beneath the shared rule
+- Removed as unrelated: nothing
+
+### Estimated size reduction
+~55 words -> ~31 words (~44% smaller)

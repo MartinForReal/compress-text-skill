@@ -1,0 +1,30 @@
+## Compressed text: Release runbook
+
+# Release runbook
+
+For every release, tag the release commit with a semver tag and get sign-off from the on-call engineer.
+
+- Frontend: deploy to the CDN, then purge the edge cache.
+- Backend: run database migrations, then deploy to the API cluster.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared release core + target-specific deploy steps | ~27% | 12/12 | yes |
+| B         | Per-component runbooks | ~15% | 12/12 | yes |
+| C         | Release workflow stage | ~24% | 12/12 | yes |
+Selected: A - it removes the duplicated tag and sign-off steps once, then keeps each component's unique deploy path.
+
+### Preserved intact
+- 6 instructions/requirements, 6 references, 0 verbatim spans/examples, merged shared-core structure
+
+### How it was compressed
+- MECE grouping: hoisted shared release preparation above frontend and backend deploy deltas.
+- Redundancy removed: 2 duplicate/near-duplicate sentences consolidated
+- Pyramid rephrasing: led with universal release steps, then listed target-specific deployment actions in order.
+- Removed as unrelated: none.
+
+### Estimated size reduction
+~55 words -> ~40 words (~27% smaller)

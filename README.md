@@ -5,6 +5,13 @@ using **MECE** grouping and the **Pyramid Principle**. It generates multiple can
 groupings, scores each on size reduction and meaning-fidelity, and ships the best one —
 preserving every instruction, key point, reference, and example.
 
+It compresses through four complementary lenses:
+
+- **Semantic** — merge paraphrases and entailments into the single most specific statement (meaning-level dedup, even when wordings differ).
+- **Statistical** — scan for repeated n-grams, near-duplicate sentences, and low-density filler to target redundancy objectively and report how much was removed.
+- **Structural (key-point tree)** — when the input spans multiple related documents or sections, build one whole-context key-point tree: hoist shared points to their common ancestor and collapse cross-document duplicates so each point is stated once, preserving the union of distinct points.
+- **Supersession (pivots)** — in transcripts, dictation, drafts, and chat, drop self-corrections ("actually", "scratch that", "I mean", "instead") together with the passages they supersede, keeping only the final intent.
+
 Supports two output modes:
 
 - **dense** (LLM-oriented): maximize information per token for prompts and context.
@@ -78,6 +85,8 @@ Then upload the zip wherever Agent Skills are accepted:
 - "Compress this for an LLM prompt: …" (dense mode)
 - "Shorten these meeting notes but keep them readable" (readable mode)
 - "Deduplicate and restructure this doc, show me the candidate comparison"
+- "Clean up this dictated note: drop the parts where I changed my mind and keep the final decisions" (pivot/supersession)
+- "Compress this and tell me how much redundancy you removed" (statistical reporting)
 - "Compress this email template but keep the `{{ tags }}` untouched"
 - "Compress #file:notes.md and report the token reduction"
 
@@ -92,11 +101,14 @@ Validate everything (manifests, skill structure, eval datasets) before publishin
 Run just the evaluation suite (offline static checks, no model required):
 
 ```bash
-python3 evals/run_evals.py
+python3 evals/run_evals.py            # structure + dataset integrity
+python3 evals/run_functional.py --selftest   # deterministic behaviour checks (30/30 cases)
 ```
 
-The suite also includes a labelled triggering dataset and functional rubric cases for
-model-judged evaluation — see [evals/README.md](evals/README.md). CI runs the validator
+The suite also includes a labelled triggering dataset, functional rubric cases for
+model-judged evaluation, and a [SkillOpt](https://microsoft.github.io/SkillOpt/)
+held-out validation loop (train/val split + `evals/OPTIMIZATION_LOG.md`) that gates skill
+edits on generalization — see [evals/README.md](evals/README.md). CI runs the validator
 and builds the bundle on every push and pull request.
 
 ## Changelog

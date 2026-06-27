@@ -15,6 +15,8 @@
 {"id": "trig-15", "text": "Make this system prompt denser so it uses fewer tokens.", "should_trigger": true, "category": "paraphrase"}
 {"id": "trig-16", "text": "压缩这段中文文字，但保留原来的意思。", "should_trigger": true, "category": "non-english"}
 {"id": "trig-17", "text": "Consolidate these four sections and drop the duplicated sentences.", "should_trigger": true, "category": "paraphrase"}
+{"id": "trig-18", "text": "Clean up this meeting transcript and cut the parts where I changed my mind; keep only the final decisions.", "should_trigger": true, "category": "pivot"}
+{"id": "trig-19", "text": "Condense this voice memo and strip the 'actually, scratch that' self-corrections.", "should_trigger": true, "category": "pivot"}
 {"id": "notrig-01", "text": "Summarize the key takeaways and give me your conclusion.", "should_trigger": false, "category": "analysis"}
 {"id": "notrig-02", "text": "Translate this paragraph into French.", "should_trigger": false, "category": "unrelated"}
 {"id": "notrig-03", "text": "Explain what this regex does.", "should_trigger": false, "category": "unrelated"}

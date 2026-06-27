@@ -1,0 +1,29 @@
+## Compressed text: Payments API integration guidelines
+
+Payments API clients:
+- Must authenticate every request with a valid API key; requests without one are rejected.
+- Must never log the full card number.
+- Should retry 503 failures with exponential backoff because 503 means the service is temporarily unavailable, and should show users the API's decline reason when a payment is declined.
+- May cache successful GET responses for up to 60 seconds to reduce load, and may use the v2 or v3 endpoint; v3 is recommended.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A | requirement level | ~40% | 9/9 | yes |
+| B | integration phase | ~27% | 9/9 | yes |
+| C | concern area | ~32% | 9/9 | yes |
+Selected: A - it preserved all modal requirements and supporting facts with the largest reduction.
+
+### Preserved intact
+- 6 instructions/requirements, 7 names/numbers/references, 0 verbatim spans/examples, title/list structure
+
+### How it was compressed
+- MECE grouping: consolidated authentication, logging, retry, caching, decline handling, and endpoint choice by requirement level.
+- Redundancy removed: 2 duplicate/near-duplicate restatements consolidated.
+- Pyramid rephrasing: each bullet starts with the modal requirement, then keeps conditions, limits, and reasons.
+- Removed as unrelated: no load-bearing content; only duplicate explanatory wording was dropped.
+
+### Estimated size reduction
+~126 words -> ~76 words (~40% smaller)

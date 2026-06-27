@@ -1,0 +1,30 @@
+## Compressed text: Standup notes
+
+Standup notes.
+
+Decisions:
+- Set the API rate limit to 300 requests per minute.
+- Use Postgres for the database.
+- Keep the deploy target AWS us-east-1.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Final decisions by topic | ~64% | 3/3 | yes |
+| B         | Chronological settled notes | ~59% | 3/3 | yes |
+Selected: A - It kept all settled decisions with the largest reduction and clearest final-state structure.
+
+### Preserved intact
+- 3 decisions/requirements, 3 references/names/numbers, 0 verbatim spans/examples, decision-list structure
+
+### How it was compressed
+- MECE grouping: Consolidated notes into API, database, and deploy decisions.
+- Redundancy removed: 3 superseded spans consolidated into final decisions.
+- Pyramid rephrasing: Front-loaded the final decisions as a short list.
+- Resolved pivots: Removed the superseded 100 requests/minute, 500 requests/minute, and MongoDB options plus correction markers; kept 300 requests/minute and Postgres.
+- Removed as unrelated: Rejected rationales and back-and-forth that did not change the settled decisions.
+
+### Estimated size reduction
+~74 words -> ~27 (~64% smaller)

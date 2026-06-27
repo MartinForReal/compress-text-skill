@@ -1,0 +1,25 @@
+## Compressed text: Release checklist
+
+Before publishing, verify signatures for three artifacts: installer, SDK package, and documentation bundle. Each uses a different key, so all three checks are required and none can be skipped. After the three signatures check out, publish the build to the mirror.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Original step order | ~16% | 6/6 | yes |
+| B         | Artifact checklist | ~25% | 6/6 | yes |
+| C         | Publishing gate | ~25% | 6/6 | yes |
+Selected: B - tied for best reduction and kept the three required artifact checks explicit.
+
+### Preserved intact
+- 5 instructions/requirements, 3 references, 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: consolidated the three signature checks into one artifact list while preserving that each check is required.
+- Redundancy removed: 2 repeated “verify the signature” sentence frames consolidated.
+- Pyramid rephrasing: led with the pre-publish gate, then kept the different-key reason and publish-after-checks sequence.
+- Removed as unrelated: None; meaningful repetition was consolidated into an explicit three-artifact list, not dropped.
+
+### Estimated size reduction
+~55 words -> ~41 words (~25% smaller)

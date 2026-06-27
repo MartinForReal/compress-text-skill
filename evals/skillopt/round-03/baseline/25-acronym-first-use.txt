@@ -1,0 +1,25 @@
+## Compressed text: Platform onboarding
+
+Welcome to platform onboarding. All new employees sign in through Single Sign-On (SSO); after first login, SSO remembers your session for the rest of the day. Every account requires Multi-Factor Authentication (MFA); set up MFA on your first day. User accounts are auto-provisioned from the HR system through System for Cross-domain Identity Management (SCIM), so there is no manual signup. Contact the help desk if SSO fails; if MFA is lost, it can reset MFA. Help-desk tickets have a one-business-day Service Level Agreement (SLA).
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Original onboarding order | ~16% | 10/10 | yes |
+| B         | Access/accounts/help desk | ~18% | 10/10 | yes |
+| C         | Employee journey | ~19% | 10/10 | yes |
+Selected: C - best reduction that stayed readable and preserved first-use acronym expansions.
+
+### Preserved intact
+- 10 instructions/facts, 4 acronym references (SSO, MFA, SCIM, SLA), 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: grouped sign-in, MFA setup, account provisioning, and help-desk support by onboarding journey.
+- Redundancy removed: 4 repeated long-form acronym mentions consolidated after first use.
+- Pyramid rephrasing: kept the main onboarding action first, then nested session duration, setup timing, provisioning source, and support SLA.
+- Removed as unrelated: None; only repeated names and polite filler were removed.
+
+### Estimated size reduction
+~104 words -> ~84 words (~19% smaller)

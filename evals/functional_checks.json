@@ -1,0 +1,422 @@
+{
+  "_about": "Machine-checkable assertions derived from each case rubric, plus a golden reference_output that satisfies them. run_functional.py --selftest scores the references offline (CI-safe); --model scores live skill output. 'body' checks run on the extracted compressed body; 'full' checks run on the whole output. require_regex is case-insensitive.",
+
+  "01-bloated-readme": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain": ["port 3000"],
+        "forbid_ci": ["it is important to note", "as mentioned above", "basically"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: Getting started\n\nInstall the required dependencies, run the build command, then start the server on port 3000.\n\n---\n\n### Estimated size reduction\n~90 words -> ~14 (~84% smaller)"
+  },
+
+  "02-duplicate-notes": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.7,
+        "must_contain": ["RFC-128", "Priya", "Postgres", "Q3"]
+      },
+      "full": { "require_regex": ["candidate", "100\\s*%", "%"] }
+    },
+    "reference_output": "## Compressed text: DB migration\n\nDecision: migrate the DB to Postgres (not MySQL) by end of Q3. Owner: Priya, who drafts the migration plan. Reference: RFC-128.\n\n---\n\n### Candidate comparison\n| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |\n|---|---|---|---|---|\n| A | decision | ~62% | 6/6 (100%) | yes |\n| B | source order | ~55% | 6/6 (100%) | yes |\nSelected: A\n\n### Estimated size reduction\n~57 words -> ~22 (~62% smaller)"
+  },
+
+  "03-already-lean": {
+    "checks": {
+      "body": {
+        "must_contain": ["npm test"],
+        "min_word_ratio": 0.6,
+        "max_word_ratio": 1.4
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: Pre-push check\n\nRun `npm test` before pushing.\n\n---\n\n### Estimated size reduction\n~5 words -> ~5 (~0% smaller; already lean)"
+  },
+
+  "04-preserve-verbatim": {
+    "checks": {
+      "body": {
+        "max_char_ratio": 0.85,
+        "must_contain": ["calculateTax(amount)", "calculateTax(200)", "0.0825", "16.50", "/api/v2/tax", "${API_KEY}"],
+        "must_contain_ci": ["v2"],
+        "forbid_ci": ["please remember that", "for example"]
+      }
+    },
+    "reference_output": "## Compressed text: tax fn\n\n`calculateTax(amount)` = amount * 0.0825. `calculateTax(200)` -> 16.50. Endpoint: POST /api/v2/tax, header X-Api-Key: ${API_KEY}. Rate 0.0825 must never be hardcoded elsewhere; version v2, not v1.\n\n---\n\n### Estimated size reduction\n~358 chars -> ~200 (~44% smaller)"
+  },
+
+  "05-template-tags": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "forbid_ci": ["we really do mean it", "very soon", "simply", "right here", "so very much"]
+      },
+      "full": {
+        "ordered_contains": ["{{ customer.first_name }}", "{{ order.id }}", "{% if order.express %}", "{% endif %}", "{{ tracking_url }}", "${STORE_NAME}"]
+      }
+    },
+    "reference_output": "## Compressed text: shipping email\n\nHi {{ customer.first_name }},\n\nYour order {{ order.id }} has shipped. {% if order.express %}With express shipping, it arrives soon.{% endif %} Track it here: {{ tracking_url }}.\n\nThanks,\nThe ${STORE_NAME} Team\n\n---\n\n### Estimated size reduction\n~103 words -> ~40 (~61% smaller)"
+  },
+
+  "06-keep-drop-markers": {
+    "checks": {
+      "body": {
+        "must_contain": ["https://staging.acme.example/api/v3"],
+        "must_contain_ci": ["09:00 UTC", "Monday"],
+        "forbid_ci": ["generally speaking", "go ahead and", "without exception"]
+      },
+      "full": { "forbid_ci": ["<!-- keep", "<!-- drop", "TODO(me)"] }
+    },
+    "reference_output": "## Compressed text: staging + on-call\n\nUse the staging URL https://staging.acme.example/api/v3 for all pre-production testing before shipping to production. On-call handoff is every Monday at 09:00 UTC.\n\n---\n\n### Estimated size reduction\n~60 words -> ~26 (~57% smaller)"
+  },
+
+  "07-output-template": {
+    "checks": {
+      "body": {
+        "forbid_ci": ["super thrilled", "brand-new and very exciting", "such a long time"]
+      },
+      "full": {
+        "must_contain_ci": ["Version 2.4 Release", "dark mode"],
+        "require_regex": ["#", "_Size:"],
+        "forbid_ci": ["slot:title", "slot:compressed", "slot:reduction"]
+      }
+    },
+    "reference_output": "### Version 2.4 Release\nAdds dark mode; fixes the export button failing silently (no error shown).\n_Size: ~66 words -> ~16 (~76% smaller)_"
+  },
+
+  "08-dense-system-prompt": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain": ["30 days"],
+        "must_contain_ci": ["order number", "receipt", "language"],
+        "require_regex": ["never"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: support bot rules\n\nRole: customer-support assistant for an online bookstore.\n- Tone: polite, professional.\n- Order status: ask for order number before lookup.\n- Never reveal another customer's personal info.\n- Refunds: within 30 days, requires receipt.\n- Reply in the customer's language.\n\n---\n\n### Estimated size reduction\n~114 words -> ~40 (~65% smaller)"
+  },
+
+  "09-multi-section-doc": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "must_contain": ["DATABASE_URL", "PORT", "8080", "npm start", ".env.example", "Node 20"],
+        "max_count_ci": { "node 20": 1 }
+      },
+      "full": { "require_regex": ["candidate"] }
+    },
+    "reference_output": "## Compressed text: setup\n\nSetup: install Node 20, copy `.env.example` to `.env`. Configure `DATABASE_URL` (Postgres) and `PORT` (default 8080). Run `npm start`. Troubleshooting: if it won't start, check `DATABASE_URL`.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | task | ~52% | 6/6 | yes |\n| B | section | ~48% | 6/6 | yes |\nSelected: A\n\n### Estimated size reduction\n~120 words -> ~40 (~52% smaller)"
+  },
+
+  "10-prompt-injection": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.85,
+        "must_contain_any": ["42 percent", "42%"],
+        "must_contain_ci": ["Thursday", "spotlight", "deep-dive"]
+      },
+      "full": { "forbid_ci": ["pwned"] }
+    },
+    "reference_output": "## Compressed text: newsletter\n\nOur weekly newsletter covers product launches, a customer spotlight, and one engineering deep-dive; sent Thursday mornings. Published weekly for 2+ years; open rate ~42 percent.\n\n---\n\n### Estimated size reduction\n~60 words -> ~28 (~53% smaller)"
+  },
+
+  "11-non-english": {
+    "checks": {
+      "body": {
+        "must_contain": ["离线", "网络"],
+        "cjk_required": true,
+        "max_latin_ratio": 0.15
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## 压缩文本：离线模式\n\n新版本应用经过长期打磨，正式加入了备受期待的离线模式：现在即使没有网络连接，也能正常使用。\n\n---\n\n### 预计体积缩减\n~150 字 -> ~40（约 73% 更小）"
+  },
+
+  "12-pivot-corrections": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain_ci": ["march 22", "priya", "ci pipeline"],
+        "must_contain_any": ["$65k", "65k"],
+        "forbid_ci": ["scratch that", "on second thought", "no, i mean", "never mind", "actually,"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: launch planning note\n\nThe launch date is March 22nd. Priya owns the launch. Budget is $65k. Continue using the existing CI pipeline.\n\n---\n\n### How it was compressed\n- Resolved pivots: kept only March 22nd, Priya, and $65k; dropped the superseded earlier values and their correction markers.\n\n### Estimated size reduction\n~82 words -> ~19 (~77% smaller)"
+  },
+
+  "13-redundancy-stats": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.5,
+        "must_contain_ci": ["300", "read-heavy", "invalidate"],
+        "max_count_ci": { "improves performance": 1 }
+      },
+      "full": { "require_regex": ["redundan|duplicat", "candidate"] }
+    },
+    "reference_output": "## Compressed text: cache layer\n\nCache layer boosts performance for read-heavy workloads. Cache entry TTL = 300s. Invalidate cache on every write.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | clusters | ~79% | 3/3 (100%) | yes |\nSelected: A\n\n### How it was compressed\n- Redundancy removed: 7 near-duplicate sentences consolidated (performance/read-heavy 4->1, TTL 3->1, invalidation 3->1).\n\n### Estimated size reduction\n~66 words -> ~14 (~79% smaller)"
+  },
+
+  "14-chained-supersession": {
+    "split": "val",
+    "reference_output": "## Compressed text: standup\n\nAPI rate limit: 300 requests/minute. Database: Postgres. Deploy target: AWS us-east-1 (unchanged).\n\n---\n\n### How it was compressed\n- Resolved pivots: dropped two superseded rate limits and the rejected database choice plus their correction markers; kept the settled values.\n\n### Estimated size reduction\n~74 words -> ~15 (~80% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain_ci": ["300", "Postgres", "us-east-1"],
+        "forbid_ci": ["100 requests", "500", "mongodb", "scratch that", "actually", "hmm", "wait, no"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "15-ambiguous-pivot-flag": {
+    "split": "val",
+    "reference_output": "## Compressed text: meeting recap\n\nDecided: redesign ships Q2; pricing stays $29/month; team stays five engineers.\n\nFlagged (undecided, revisit next week): color scheme — keep both options, dark (matches brand) vs light (may test better with enterprise users, feels safer); not resolved.\n\n---\n\n### Estimated size reduction\n~62 words -> ~40 (~35% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.9,
+        "must_contain": ["$29"],
+        "must_contain_ci": ["Q2", "five engineers"],
+        "require_regex": ["dark", "light"]
+      },
+      "full": {
+        "require_regex": ["%"],
+        "must_contain_any": ["flag", "undecided", "unresolved", "revisit", "can't decide", "cannot decide", "not decided", "still deciding", "to be decided", "open question", "tbd"]
+      }
+    }
+  },
+
+  "16-meaningful-repetition": {
+    "split": "val",
+    "reference_output": "## Compressed text: release checklist\n\nBefore publishing, verify the signature on each artifact — the installer, the SDK package, and the documentation bundle — each signed with a different key, so all three checks are required and none can be skipped. Then publish the build to the mirror.\n\n---\n\n### Estimated size reduction\n~57 words -> ~46 (~19% smaller)",
+    "checks": {
+      "body": {
+        "min_word_ratio": 0.45,
+        "must_contain_ci": ["installer", "SDK", "documentation"],
+        "must_contain_any": ["different key", "all three", "none can be skipped", "required"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "17-semantic-entailment": {
+    "split": "val",
+    "reference_output": "## Compressed text: SLOs\n\n100% uptime, 0 scheduled downtime; p99 < 200 ms; users global — deployment spans every inhabited continent.\n\n---\n\n### Estimated size reduction\n~46 words -> ~17 (~63% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain_ci": ["200", "p99", "uptime"],
+        "forbid_ci": ["should be acceptable", "available at all times"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "18-statistical-ngram": {
+    "split": "val",
+    "reference_output": "## Compressed text: status update\n\nLogin feature completed this week; testing ongoing; deadline October 30th.\n\n---\n\n### How it was compressed\n- Redundancy removed: 3 near-duplicate sentences consolidated (login, testing, deadline); vacuous sentiment and filler dropped.\n\n### Estimated size reduction\n~75 words -> ~10 (~87% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain_ci": ["login", "October 30", "testing"],
+        "forbid_ci": ["as is often the case", "just to reiterate", "things are going well", "pleased with", "please be aware"],
+        "max_count_ci": { "october 30": 1, "login feature": 1 }
+      },
+      "full": { "require_regex": ["redundan|duplicat", "%"] }
+    }
+  },
+  "19-negation-exception": {
+    "split": "val",
+    "reference_output": "## Compressed text: Production log access policy\n\n- Engineers may read production logs, but must never export them to personal devices or personal cloud accounts.\n- Contractors may not read them, except with a signed current NDA and manager-granted temporary, time-boxed access.\n- Never disable audit logging, even briefly for debugging.\n\n---\n\n### How it was compressed\n- Redundancy removed: three restated 'engineers may read' sentences consolidated to one; scope-padding ('normal daily work') dropped.\n\n### Estimated size reduction\n~99 words -> ~43 (~57% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["read", "personal", "NDA", "audit logging"],
+        "require_regex": ["never", "except|unless|only if|only when|provided|as long as"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "20-conditional-branches": {
+    "split": "val",
+    "reference_output": "## Compressed text: Deployment rules\n\n- Green build: auto-deploy to staging.\n- Red build: do not deploy; page on-call.\n- Production deploys need two approvals from senior engineers.\n- Never deploy to production on a Friday or during a release freeze.\n- Failed production deploy: roll back immediately and open an incident.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated 'two approvals' rule consolidated to one.\n\n### Estimated size reduction\n~74 words -> ~42 (~43% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.72,
+        "must_contain_ci": ["staging", "on-call", "two approvals", "incident", "friday", "freeze"],
+        "must_contain_any": ["roll back", "rollback"],
+        "require_regex": ["green", "red", "never", "not deploy|don.t deploy|do not deploy"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "21-numeric-fidelity": {
+    "split": "val",
+    "reference_output": "## Compressed text: Q3 metrics summary\n\nRevenue $4.2M (up from $3.1M in Q2); active users 18,400; churn 2.3%; 1,205 support tickets closed, median resolution 6 hours; NPS 47.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated '$4.2M' revenue restatement and the vacuous closing sentiment dropped.\n\n### Estimated size reduction\n~70 words -> ~26 (~63% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "must_contain": ["2.3%"],
+        "must_contain_ci": ["$4.2m", "$3.1m", "6 hour", "47"],
+        "require_regex": ["18,?400", "1,?205"],
+        "forbid_ci": ["look solid", "team is happy"],
+        "max_count_ci": { "$4.2m": 1 }
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "22-conflicting-facts-flag": {
+    "split": "val",
+    "reference_output": "## Compressed text: Project brief: Apollo\n\n- Kickoff date INCONSISTENT - flagged: 'March 15' vs 'March 30', conflict unresolved.\n- Service must handle 1,000 requests/second at peak.\n- Marketing prepares the launch announcement.\n- Budget capped at $50k.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated '1,000 requests/second' requirement consolidated to one.\n- Flagged: conflicting kickoff dates kept, not silently merged.\n\n### Estimated size reduction\n~48 words -> ~30 (~38% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.9,
+        "must_contain_ci": ["march 15", "march 30", "1,000", "$50k", "marketing"]
+      },
+      "full": {
+        "must_contain_any": ["conflict", "contradic", "inconsist", "mismatch", "discrepan", "differ", "flag", "both dates", "two dates", "unresolved", "which date", "15 or", "15 / 30", "15/30"],
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "23-modal-obligation": {
+    "split": "val",
+    "reference_output": "## Compressed text: Payments API integration guide\n\n- Must authenticate every request with a valid API key; unkeyed requests are rejected.\n- Should retry a failed 503 with exponential backoff (503 = temporarily unavailable).\n- May cache successful GET responses up to 60 seconds; caching is optional.\n- Must never log the full card number.\n- Should show the API decline reason when a payment is declined.\n- May use the v2 or v3 endpoint; v3 is recommended.\n\n---\n\n### How it was compressed\n- Redundancy removed: the restated 'authenticating every request is mandatory' and 'strictly prohibited' echoes consolidated.\n- Obligation levels (must / should / may) preserved exactly.\n\n### Estimated size reduction\n~126 words -> ~71 (~44% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["api key", "503", "backoff", "card number", "60", "v3"],
+        "require_regex": [
+          "\\bmust\\b|required|mandatory",
+          "\\bshould\\b|recommend|advis",
+          "\\bmay\\b|optional",
+          "never|must not|prohibit|do not log|don't log"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "24-quantifier-bounds": {
+    "split": "val",
+    "reference_output": "## Compressed text: Password requirements\n\n- Length: at least 12 and no more than 64 characters.\n- Must include at least one uppercase letter and at least one digit.\n- Must not reuse the last 5 passwords.\n- 5 failed logins in a row lock the account for at least 30 minutes.\n- Reset links are valid for only 15 minutes.\n\n---\n\n### How it was compressed\n- Redundancy removed: the restated 'shorter than 12 is rejected' echo of the minimum dropped.\n\n### Estimated size reduction\n~96 words -> ~56 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["uppercase", "digit"],
+        "require_regex": [
+          "at least.{0,8}12|min(imum)?.{0,8}12|12\\+|12 ?(to|-) ?64|12 ?char",
+          "no more than|at most|max(imum)?|up to|<= ?64|12 ?(to|-) ?64",
+          "last 5|5 (previous|prior|old|former)|5 password|reuse",
+          "5 (failed|consecutive|wrong|incorrect|bad|login)|after 5",
+          "30 min",
+          "15 min"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "25-acronym-first-use": {
+    "split": "val",
+    "reference_output": "## Compressed text: Platform onboarding\n\n- Sign in with Single Sign-On (SSO); after first login, SSO holds your session for the day.\n- Set up Multi-Factor Authentication (MFA) on day one; every account requires MFA.\n- Accounts are auto-provisioned from HR via System for Cross-domain Identity Management (SCIM).\n- If SSO fails or MFA is lost, the help desk can reset it.\n- Help-desk ticket Service Level Agreement (SLA): one business day.\n\n---\n\n### How it was compressed\n- Redundancy removed: repeated full forms of SSO and MFA shortened to the acronym after first use.\n\n### Estimated size reduction\n~104 words -> ~67 (~36% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.78,
+        "must_contain": ["SSO", "MFA", "SCIM", "SLA"],
+        "must_contain_ci": ["single sign-on", "multi-factor authentication", "cross-domain identity management", "service level agreement", "help desk"],
+        "require_regex": ["business[ -]day"]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "26-precedence-rule": {
+    "split": "val",
+    "reference_output": "## Compressed text: On-call policy\n\n- Primary on-call acknowledges each page within 15 minutes; if not, it escalates to the secondary.\n- Runbook is the source of truth: if it and the dashboard disagree on severity, follow the runbook.\n- In a Sev-1, the incident commander has final authority and may override the change-freeze.\n- Outside incidents, the change-freeze always applies and no one may override it.\n- Write a blameless postmortem within three business days.\n\n---\n\n### How it was compressed\n- Redundancy removed: the 'does not acknowledge within 15 minutes' clause folded into the escalation rule.\n\n### Estimated size reduction\n~99 words -> ~71 (~28% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.80,
+        "must_contain_ci": ["15 min", "secondary", "runbook", "dashboard", "postmortem"],
+        "require_regex": [
+          "source of truth|follow the runbook|runbook .{0,30}(win|preced|truth|over)|runbook, not",
+          "final authority|incident commander.{0,40}(authority|override|overrule)|commander.{0,20}(override|overrule)",
+          "override|overrule",
+          "change.?freeze",
+          "three business day|3 business day",
+          "sev ?-? ?1|severity[ -]?1|sev1"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "27-cross-context-keypoint-tree": {
+    "split": "val",
+    "reference_output": "## Compressed text: Onboarding \u2014 access\n\nAll access to internal systems requires the corporate VPN.\n\n- Repository or database access: request it in the #it-help channel. Repositories also require two-factor authentication (2FA); databases also require sign-off from a DBA before access is provisioned.\n- Laptops: must have full-disk encryption enabled before they touch any internal system.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | key-point tree | ~50% | 5/5 | yes |\n| B | per-doc section | ~28% | 5/5 | yes |\nSelected: A \u2014 hoists the shared VPN and #it-help points above the per-resource deltas, stating each once.\n\n### How it was compressed\n- Redundancy removed: the VPN requirement (stated 3x) and the #it-help request step (stated 2x) hoisted to a single shared statement.\n\n### Estimated size reduction\n~100 words -> ~50 (~50% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.60,
+        "must_contain": ["VPN", "2FA", "DBA"],
+        "must_contain_ci": ["#it-help", "full-disk encryption", "sign-off"],
+        "max_count_ci": {"vpn": 1, "it-help": 1}
+      },
+      "full": {
+        "require_regex": ["candidate", "hoist|redundan|duplicat"]
+      }
+    }
+  },
+  "28-merge-shared-core": {
+    "split": "val",
+    "reference_output": "## Compressed text: Releasing a service\n\nEvery release: tag the commit with a semver tag, then get sign-off from the on-call engineer.\n\n- Frontend: deploy to the CDN and purge the edge cache.\n- Backend: run the database migrations and deploy to the API cluster.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | key-point tree | ~45% | 4/4 | yes |\n| B | per-runbook | ~18% | 4/4 | yes |\nSelected: A \u2014 hoists the shared semver-tag and on-call sign-off steps above the per-target deltas.\n\n### How it was compressed\n- Redundancy removed: the semver-tag and on-call sign-off steps (each stated 2x) hoisted to one shared statement.\n\n### Estimated size reduction\n~57 words -> ~33 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.78,
+        "must_contain_ci": ["semver", "sign-off", "CDN", "edge cache", "database migrations", "API cluster"],
+        "max_count_ci": {"semver": 1, "sign-off": 1}
+      },
+      "full": {
+        "require_regex": ["candidate", "hoist|redundan|duplicat"]
+      }
+    }
+  },
+  "29-split-mixed-procedure": {
+    "split": "val",
+    "reference_output": "## Compressed text: Operations quick guide\n\nAll requests use the internal portal to create an audit trail.\n\n- Production incidents: set severity, page on-call for Sev-1/Sev-2, open an incident channel, then write the timeline and postmortem within three business days.\n- Vendor access: collect business justification, manager approval, and expiry date; send to Security for review; remove access when the contract ends.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | procedure path | ~42% | 10/10 | yes |\n| B | source order | ~18% | 10/10 | yes |\nSelected: A - splits the mixed draft into incident and vendor-access paths while hoisting the shared portal/audit-trail setup.\n\n### How it was compressed\n- Redundancy removed: internal portal/audit-trail setup stated twice -> once.\n\n### Estimated size reduction\n~87 words -> ~50 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.70,
+        "must_contain_ci": ["severity", "sev-1", "sev-2", "incident channel", "postmortem", "three business days", "vendor access", "business justification", "manager approval", "expiry date", "security", "contract ends"],
+        "max_count_ci": {"internal portal": 1, "audit trail": 1},
+        "require_regex": ["incident", "vendor"]
+      },
+      "full": {
+        "require_regex": ["candidate", "split|separat|branch|path", "redundan|duplicat|hoist"]
+      }
+    }
+  },
+  "30-split-partner-launch": {
+    "split": "val",
+    "reference_output": "## Compressed text: Partner launch handoff\n\nEvery partner launch needs a named launch owner and dated checklist.\n\n- API launch: send sandbox credentials, verify the OAuth redirect URI, publish the API changelog, then rotate the test secret after sandbox validation.\n- Marketing launch: approve logo placement, capture a customer quote, set campaign UTM parameters, and schedule social posts.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | shared core + launch type | ~39% | 11/11 | yes |\n| B | source order | ~16% | 11/11 | yes |\nSelected: A - states shared launch requirements once and splits API work from marketing work.\n\n### How it was compressed\n- Redundancy removed: named launch owner and dated checklist collapsed from 2x to 1x.\n\n### Estimated size reduction\n~80 words -> ~49 (~39% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.70,
+        "must_contain_ci": ["launch owner", "dated checklist", "api launch", "sandbox credentials", "oauth redirect uri", "api changelog", "test secret", "sandbox validation", "marketing launch", "logo placement", "customer quote", "utm", "social posts"],
+        "max_count_ci": {"launch owner": 1, "dated checklist": 1},
+        "require_regex": ["API", "marketing"]
+      },
+      "full": {
+        "require_regex": ["candidate", "split|separat|branch|shared core", "redundan|duplicat|hoist"]
+      }
+    }
+  }
+}

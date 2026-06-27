@@ -1,0 +1,25 @@
+## Compressed text: Password requirements for the account system
+
+Account-system passwords must be 12-64 characters; shorter than 12 is rejected at sign-up. They must include at least one uppercase letter and at least one digit, and must not reuse any of the user's last 5 passwords. Accounts lock after exactly 5 consecutive failed login attempts and stay locked at least 30 minutes. Password-reset links are valid only 15 minutes after issuance.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Rule category list | ~15% | 10/10 | yes |
+| B         | Password/account/reset groups | ~27% | 10/10 | yes |
+| C         | Constraint sequence | ~35% | 10/10 | yes |
+Selected: C - largest reduction with every numeric bound and condition preserved.
+
+### Preserved intact
+- 7 instructions/requirements, 4 references (account system, sign-up, failed login attempts, password-reset links), 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: combined length, content, history, lockout, and reset-link limits without overlap.
+- Redundancy removed: 2 duplicate/near-duplicate clauses consolidated.
+- Pyramid rephrasing: put each bound first, then kept rejection, lockout, and validity qualifiers.
+- Removed as unrelated: None; only duplicate wording and filler were removed.
+
+### Estimated size reduction
+~96 words -> ~62 words (~35% smaller)

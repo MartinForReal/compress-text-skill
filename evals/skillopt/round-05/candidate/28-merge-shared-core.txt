@@ -1,0 +1,26 @@
+## Compressed text: Release runbook
+
+Tag the release commit with a semver tag and get sign-off from the on-call engineer. Then:
+- Frontend: deploy to the CDN; purge the edge cache.
+- Backend: run database migrations; deploy to the API cluster.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | shared release core + target deltas | ~40% | 4/4 | yes |
+| B         | frontend/backend sections with common prereqs | ~32% | 4/4 | yes |
+Selected: A - states the two shared steps once, then keeps each target’s unique actions.
+
+### Preserved intact
+- 4 instructions/requirements, 2 target references, 4 verbatim spans/examples, shared-core→delta order
+
+### How it was compressed
+- MECE grouping: shared tag/sign-off steps hoisted above frontend/backend-specific actions
+- Redundancy removed: 2 duplicate shared steps consolidated
+- Pyramid rephrasing: key release sequence first, compact target deltas after
+- Removed as unrelated: repeated runbook headings and duplicated transition wording
+
+### Estimated size reduction
+~52 words -> ~31 words (~40% smaller)
