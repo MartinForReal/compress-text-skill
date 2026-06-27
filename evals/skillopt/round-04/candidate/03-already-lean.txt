@@ -1,0 +1,23 @@
+## Compressed text: Run `npm test` before pushing.
+
+Run `npm test` before pushing.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Single required action | ~0% | 2/2 | yes |
+| B         | Command + timing condition | ~0% | 2/2 | yes |
+Selected: A - The sentence is already lean; no wording can be safely cut without losing the command or timing.
+
+### Preserved intact
+- 1 instruction/requirement, 0 references, 1 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: one action with one timing condition; no duplicates to consolidate
+- Pyramid rephrasing: kept the direct action-first wording because shorter phrasing would risk losing required timing or the command
+- Removed as unrelated: nothing
+
+### Estimated size reduction
+~5 words -> ~5 words (~0% smaller)

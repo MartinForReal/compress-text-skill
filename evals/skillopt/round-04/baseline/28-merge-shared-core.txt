@@ -1,0 +1,31 @@
+## Compressed text: Release runbook
+
+# Release runbook
+
+1. Tag the release commit with a semver tag.
+2. Get the on-call engineer's sign-off.
+3. Run the target-specific steps:
+   - Frontend: deploy to the CDN and purge the edge cache.
+   - Backend: run database migrations and deploy to the API cluster.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared release steps, then target-specific deployment | ~29% | 6/6 | yes |
+| B         | Release type with shared prerequisites factored into intro | ~24% | 6/6 | yes |
+| C         | Chronological phases: tag, approval, deploy | ~27% | 6/6 | yes |
+Selected: A - it removed both duplicated prerequisite steps and kept the frontend/backend actions distinct.
+
+### Preserved intact
+- 6 instructions/requirements, 3 references/named targets, 0 verbatim spans/examples, release order
+
+### How it was compressed
+- MECE grouping: separated shared release prerequisites from frontend-only and backend-only actions.
+- Redundancy removed: 2 duplicate/near-duplicate sentences consolidated.
+- Pyramid rephrasing: converted two parallel runbooks into one ordered checklist with nested target-specific steps.
+- Removed as unrelated: nothing; all source content served the release-runbook purpose.
+
+### Estimated size reduction
+~55 words -> ~39 words (~29% smaller)

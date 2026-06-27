@@ -359,5 +359,34 @@
         "require_regex": ["%"]
       }
     }
+  },
+  "27-cross-context-keypoint-tree": {
+    "split": "val",
+    "reference_output": "## Compressed text: Onboarding \u2014 access\n\nAll access to internal systems requires the corporate VPN.\n\n- Repository or database access: request it in the #it-help channel. Repositories also require two-factor authentication (2FA); databases also require sign-off from a DBA before access is provisioned.\n- Laptops: must have full-disk encryption enabled before they touch any internal system.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | key-point tree | ~50% | 5/5 | yes |\n| B | per-doc section | ~28% | 5/5 | yes |\nSelected: A \u2014 hoists the shared VPN and #it-help points above the per-resource deltas, stating each once.\n\n### How it was compressed\n- Redundancy removed: the VPN requirement (stated 3x) and the #it-help request step (stated 2x) hoisted to a single shared statement.\n\n### Estimated size reduction\n~100 words -> ~50 (~50% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.60,
+        "must_contain": ["VPN", "2FA", "DBA"],
+        "must_contain_ci": ["#it-help", "full-disk encryption", "sign-off"],
+        "max_count_ci": {"vpn": 1, "it-help": 1}
+      },
+      "full": {
+        "require_regex": ["candidate", "hoist|redundan|duplicat"]
+      }
+    }
+  },
+  "28-merge-shared-core": {
+    "split": "val",
+    "reference_output": "## Compressed text: Releasing a service\n\nEvery release: tag the commit with a semver tag, then get sign-off from the on-call engineer.\n\n- Frontend: deploy to the CDN and purge the edge cache.\n- Backend: run the database migrations and deploy to the API cluster.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | key-point tree | ~45% | 4/4 | yes |\n| B | per-runbook | ~18% | 4/4 | yes |\nSelected: A \u2014 hoists the shared semver-tag and on-call sign-off steps above the per-target deltas.\n\n### How it was compressed\n- Redundancy removed: the semver-tag and on-call sign-off steps (each stated 2x) hoisted to one shared statement.\n\n### Estimated size reduction\n~57 words -> ~33 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.78,
+        "must_contain_ci": ["semver", "sign-off", "CDN", "edge cache", "database migrations", "API cluster"],
+        "max_count_ci": {"semver": 1, "sign-off": 1}
+      },
+      "full": {
+        "require_regex": ["candidate", "hoist|redundan|duplicat"]
+      }
+    }
   }
 }

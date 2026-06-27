@@ -13,9 +13,12 @@ skillopt/
 ├── round-02/
 │   ├── baseline/    # pre-edit skill on the refreshed held-out cases (19–22)
 │   └── candidate/   # post-edit skill on held-out + aggressive over-cut anchors (04/05/09)
-└── round-03/        # REJECTED edit — kept as the evidence behind the no-ship decision
-    ├── baseline/    # committed skill on the refreshed held-out cases (23–26), 1/4
-    └── candidate/   # trial (since-reverted) edit on held-out (0/4) + restraint anchors (03/04/16)
+├── round-03/        # REJECTED edit — kept as the evidence behind the no-ship decision
+│   ├── baseline/    # committed skill on the refreshed held-out cases (23–26), 1/4
+│   └── candidate/   # trial (since-reverted) edit on held-out (0/4) + restraint anchors (03/04/16)
+└── round-04/        # ACCEPTED edit — Structural (key-point tree) lens
+    ├── baseline/    # committed skill on the new held-out cases (27–28), 1/2
+    └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/16/09, 4/4)
 ```
 
 Each file is named `<case_id>.txt` and contains exactly what an end user would receive.
@@ -46,6 +49,15 @@ python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
 # round 03 — restraint anchors (the edit's risk direction; all clean)
 python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
   --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition
+
+# round 04 — new held-out gate (cases 27–28): baseline 1/2 vs candidate 2/2 (improved -> edit accepted)
+python3 evals/run_functional.py --grade evals/skillopt/round-04/baseline \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+# round 04 — no-regression anchors (over-merge / over-cut risk; all clean)
+python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
+  --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition,09-multi-section-doc
 ```
 
 See [`../OPTIMIZATION_LOG.md`](../OPTIMIZATION_LOG.md) for the full round write-up.

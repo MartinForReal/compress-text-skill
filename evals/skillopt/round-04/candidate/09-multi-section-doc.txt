@@ -1,0 +1,32 @@
+## Compressed text: Project startup
+
+1. Install Node 20.
+2. Copy `.env.example` to `.env`.
+3. In `.env`, set:
+   - `DATABASE_URL` to your Postgres instance.
+   - `PORT` if needed; default is 8080.
+4. Run `npm start`; the app listens on `PORT`.
+
+If startup fails, check `DATABASE_URL` first; most failures are missing or incorrect values.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Startup workflow | ~58% | 7/7 | yes |
+| B         | Configuration variables first | ~52% | 7/7 | yes |
+| C         | Original sections deduped | ~45% | 7/7 | yes |
+Selected: A - It is the leanest 100%-fidelity grouping, hoisting shared setup/configuration steps into one run sequence and keeping troubleshooting as the unique fallback.
+
+### Preserved intact
+- 7 instructions/requirements, 0 references, 6 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: combined setup, configuration, running, and troubleshooting into one startup flow with one failure note
+- Redundancy removed: 4 duplicate/near-duplicate statements consolidated
+- Pyramid rephrasing: replaced section prose with ordered actions, nested configuration details, and a final troubleshooting rule
+- Removed as unrelated: nothing
+
+### Estimated size reduction
+~97 words -> ~41 words (~58% smaller)

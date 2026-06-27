@@ -5,10 +5,11 @@ using **MECE** grouping and the **Pyramid Principle**. It generates multiple can
 groupings, scores each on size reduction and meaning-fidelity, and ships the best one —
 preserving every instruction, key point, reference, and example.
 
-It compresses through three complementary lenses:
+It compresses through four complementary lenses:
 
 - **Semantic** — merge paraphrases and entailments into the single most specific statement (meaning-level dedup, even when wordings differ).
 - **Statistical** — scan for repeated n-grams, near-duplicate sentences, and low-density filler to target redundancy objectively and report how much was removed.
+- **Structural (key-point tree)** — when the input spans multiple related documents or sections, build one whole-context key-point tree: hoist shared points to their common ancestor and collapse cross-document duplicates so each point is stated once, preserving the union of distinct points.
 - **Supersession (pivots)** — in transcripts, dictation, drafts, and chat, drop self-corrections ("actually", "scratch that", "I mean", "instead") together with the passages they supersede, keeping only the final intent.
 
 Supports two output modes:
@@ -101,7 +102,7 @@ Run just the evaluation suite (offline static checks, no model required):
 
 ```bash
 python3 evals/run_evals.py            # structure + dataset integrity
-python3 evals/run_functional.py --selftest   # deterministic behaviour checks (26/26 cases)
+python3 evals/run_functional.py --selftest   # deterministic behaviour checks (28/28 cases)
 ```
 
 The suite also includes a labelled triggering dataset, functional rubric cases for

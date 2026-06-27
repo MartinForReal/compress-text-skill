@@ -8,7 +8,7 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
-- **Three named compression lenses** in [SKILL.md](skills/compress-text/SKILL.md), with a
+- **Four named compression lenses** in [SKILL.md](skills/compress-text/SKILL.md), with a
   new "Compression techniques" section and matching procedure/guardrail/success-criteria
   updates:
   - **Semantic** — merge paraphrases and entailments into the single most specific
@@ -16,6 +16,11 @@ All notable changes to this project are documented here. The format is based on
   - **Statistical** — scan repeated n-grams, near-duplicate sentences, and low
     information-density filler to target redundancy objectively, and report how much
     redundancy was removed alongside the size reduction.
+  - **Structural (key-point tree)** — when the input spans multiple documents or sections
+    that belong together, build a single MECE key-point tree over the whole context: a point
+    stated in several places collapses to one node, and a sub-point shared by sibling branches
+    hoists to their nearest common ancestor so it is stated once above the per-branch deltas
+    (merge/split related docs and dedupe across them, preserving the union of distinct points).
   - **Supersession (pivots)** — in transcripts, dictation, drafts, and chat, drop
     self-correction markers ("actually", "scratch that", "I mean", "instead", …) together
     with the passages they supersede, keeping only the final intent; ambiguous pivots are
@@ -45,11 +50,18 @@ All notable changes to this project are documented here. The format is based on
   numeric quantifier-bounds, first-use acronym expansion, authority/precedence rules) added as
   standing held-out probes. `23` confirmed the skill already preserves modal obligation levels;
   `24`/`25`/`26` document an unaddressed under-tightening gradient on low-density prose.
+- **Structural (key-point tree) lens (round 04, validation-gated — accepted):** added a 4th
+  compression lens that treats related documents/sections as one whole-context MECE tree of key
+  points, hoisting shared points to their nearest common ancestor and collapsing cross-document
+  duplicates to a single node while preserving the union of distinct points (merge/split related
+  docs and dedupe across them). Two new `val` cases (`27`–`28`: cross-context hoist + collapse
+  repeats, merge runbooks into shared-core + deltas) with deterministic dedup checks; held-out
+  1/2 → 2/2 with no-regression anchors (`03`/`04`/`16`/`09`) 4/4 clean.
 
 ### Changed
 
-- Eval suite grows from 13 to 26 functional cases (13 held-out `val` cases for SkillOpt across three
-  rounds); static validator and offline self-test (26/26) both green.
+- Eval suite grows from 13 to 28 functional cases (15 held-out `val` cases for SkillOpt across four
+  rounds); static validator and offline self-test (28/28) both green.
 
 ### Notes
 

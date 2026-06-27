@@ -37,7 +37,7 @@ Beyond the rubric scoring above, `run_functional.py --selftest` scores a stored 
 (`functional_checks.json`). It runs with no model/credentials and gates CI via
 `scripts/validate.sh`.
 
-**Self-test: 26/26 references PASS** (13 `train` + 13 held-out `val`).
+**Self-test: 28/28 references PASS** (13 `train` + 15 held-out `val`).
 
 ## SkillOpt held-out validation (round 01)
 
@@ -96,6 +96,28 @@ under-tightening gradient for a future, lower-variance round). This round demons
 integrity: not every round ships an edit. Full write-up:
 [`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
 
+## SkillOpt held-out validation (round 04) — accepted: Structural lens
+
+Round 04 adds a user-requested capability: **merge/split related documents along the structure of
+the context tree and eliminate content duplicated across them.** Two new `val` cases (`27`–`28`)
+present the input as several related docs with cross-doc duplication; deterministic `max_count_ci`
+checks prove each shared point collapses to one occurrence while `must_contain` guards every distinct
+point. Prompts are method-neutral, so the rollout measures the skill's contribution, not a leading
+prompt.
+
+| Skill | Held-out (val) | No-regression anchors (03/04/16/09) |
+|-------|----------------|-------------------------------------|
+| Baseline (committed `ec6c3b1`) | 1/2 — already hoists/dedups; `28` 0.01 over a tight ratio | — |
+| **After Structural lens** | **2/2** (`28` 0.79 → 0.754) | **4/4 clean** |
+
+**Key finding:** the committed skill *already* performed cross-context key-point-tree compression
+well (both baseline rollouts merged the docs, hoisted the shared prerequisite, and collapsed every
+duplicate to one occurrence). The accepted edit **codifies** that emergent behavior as a named, 4th
+lens — *Structural (key-point tree)* — so it is explicit, reliable, and discoverable, and it tips the
+borderline case by instructing an explicit hoist of the shared core into one statement. Held-out
+improved 1/2 → 2/2 with no anchor regression. Full write-up:
+[`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
+
 ## Notes per case
 
 - **01 — bloated-readme:** Removed filler and the duplicated "dependencies are required"
@@ -146,7 +168,7 @@ Run the static validator (offline gate):
 python3 evals/run_evals.py
 ```
 
-Run the functional harness self-test (offline, scores golden references for all 26 cases):
+Run the functional harness self-test (offline, scores golden references for all 28 cases):
 
 ```bash
 python3 evals/run_functional.py --selftest
@@ -164,6 +186,11 @@ python3 evals/run_functional.py --grade evals/skillopt/round-03/baseline \
   --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
 python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
   --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+# round 04 (accepted: Structural lens): baseline 1/2 -> candidate 2/2, anchors 4/4 clean
+python3 evals/run_functional.py --grade evals/skillopt/round-04/baseline \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
+  --cases 27-cross-context-keypoint-tree,28-merge-shared-core
 ```
 
 Run the full functional cases against a live model: execute each `cases/*.md` input with its

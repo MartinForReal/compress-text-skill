@@ -35,7 +35,9 @@ evals/
 │   ├── 23-modal-obligation.md     # [held-out r03] keep must/should/may obligation levels distinct
 │   ├── 24-quantifier-bounds.md    # [held-out r03] preserve every numeric bound/quantifier exactly
 │   ├── 25-acronym-first-use.md    # [held-out r03] keep first-use acronym expansions, then acronym
-│   └── 26-precedence-rule.md      # [held-out r03] keep authority/precedence (source-of-truth) rules
+│   ├── 26-precedence-rule.md      # [held-out r03] keep authority/precedence (source-of-truth) rules
+│   ├── 27-cross-context-keypoint-tree.md # [held-out r04] hoist shared points across docs; collapse repeats
+│   └── 28-merge-shared-core.md    # [held-out r04] merge runbooks into shared-core + per-target deltas
 ├── functional_checks.json # Deterministic assertions + golden references per case (+ train/val split)
 ├── run_functional.py  # Functional harness (offline self-test / live model / grade rollouts)
 ├── skillopt/          # SkillOpt rollout trajectories (round-NN/baseline, round-NN/candidate)
@@ -115,8 +117,9 @@ labelled with a `split` in `functional_checks.json`:
 
 - **`train`** (held-in) — the original `01`–`13`; used to design lenses and reflect on failures.
 - **`val`** (held-out) — fresh cases in unseen domains, added per round (`14`–`18` round 01,
-  `19`–`22` round 02, `23`–`26` round 03); used **only** as the acceptance gate. An edit is kept
-  only if the `val` split improves and `train` does not regress (validation-gated update). When a
+  `19`–`22` round 02, `23`–`26` round 03, `27`–`28` round 04); used **only** as the acceptance gate.
+  An edit is kept only if the `val` split improves and `train` does not regress (validation-gated
+  update). When a
   `val` set saturates it is refreshed with harder cases for the next round; a round may also
   **reject** its edit (round 03 did) when the gate does not improve. Rollout trajectories live in
   `skillopt/`; each round is written up in `OPTIMIZATION_LOG.md`.
