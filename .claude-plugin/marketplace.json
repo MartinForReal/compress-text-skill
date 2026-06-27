@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Agent skills published by MartinForReal.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "compress-text",
       "source": "./",
-      "description": "Compress and restructure any text using MECE grouping and the Pyramid Principle, scoring candidates on size reduction and meaning fidelity. Preserves template tags verbatim and can fill a user-supplied output template. Supports dense (LLM-oriented) and readable (human-oriented) output modes.",
-      "version": "0.1.0",
+      "description": "Compress and restructure any text using MECE grouping, Pyramid Principle, semantic/statistical deduplication, pivot cleanup, and structural key-point trees for related docs. Preserves template tags verbatim and supports dense/readable modes.",
+      "version": "0.2.0",
       "author": {
         "name": "Fan Shangxiang"
       },
@@ -27,6 +27,9 @@
         "summarize",
         "restructure",
         "deduplicate",
+        "key-point-tree",
+        "structural-dedup",
+        "merge-docs",
         "transcript-cleanup",
         "self-correction"
       ]

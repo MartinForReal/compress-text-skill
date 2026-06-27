@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "compress-text",
   "displayName": "Compress Text",
-  "version": "0.1.0",
-  "description": "Compress and restructure any text using MECE grouping and the Pyramid Principle, scoring candidates on size reduction and meaning fidelity. Preserves template tags verbatim and can fill a user-supplied output template. Supports dense (LLM-oriented) and readable (human-oriented) output modes.",
+  "version": "0.2.0",
+  "description": "Compress and restructure any text using MECE grouping, Pyramid Principle, semantic/statistical deduplication, pivot cleanup, and structural key-point trees for related docs. Preserves template tags verbatim and supports dense/readable modes.",
   "author": {
     "name": "Fan Shangxiang",
     "url": "https://github.com/MartinForReal"
@@ -19,6 +19,9 @@
     "summarize",
     "restructure",
     "deduplicate",
+    "key-point-tree",
+    "structural-dedup",
+    "merge-docs",
     "transcript-cleanup",
     "self-correction",
     "mece",

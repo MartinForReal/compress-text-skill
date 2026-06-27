@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-27
+
 ### Added
 
 - **Four named compression lenses** in [SKILL.md](skills/compress-text/SKILL.md), with a
@@ -97,5 +99,6 @@ All notable changes to this project are documented here. The format is based on
 - Repository validation script (`scripts/validate.sh`) and GitHub Actions CI
   (`.github/workflows/ci.yml`).
 
-[Unreleased]: https://github.com/MartinForReal/compress-text-skill/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/MartinForReal/compress-text-skill/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/MartinForReal/compress-text-skill/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/MartinForReal/compress-text-skill/releases/tag/v0.1.0
