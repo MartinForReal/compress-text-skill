@@ -1,6 +1,6 @@
 ---
 name: compress-text
-description: Reads text in any format and produces a leaner, better-structured version via MECE semantic grouping and the Pyramid Principle. Generates multiple candidate groupings, scores each on size reduction and meaning-fidelity, and selects the best while preserving the original meaning, instructions, key points, references, and examples. Preserves template tags (Handlebars/Jinja/Mustache/shell/ERB and explicit keep/drop markers) verbatim and can emit the result into a user-supplied output template with named slots. Offers a dense LLM-oriented mode and a readable human-oriented mode. Use it to shrink, compress, trim, deduplicate, restructure, or optimize any text, reduce its token/context footprint, compress a template while keeping its tags, or measure compression effectiveness.
+description: Reads text in any format and produces a leaner, better-structured version via MECE semantic grouping and the Pyramid Principle. Generates multiple candidate groupings, scores each on size reduction and meaning-fidelity, and selects the best while preserving the original meaning, instructions, key points, references, and examples. Cuts redundancy with semantic and statistical analysis, and strips self-corrections plus the passages they supersede when the author pivoted (transcripts, dictation, drafts, chat). Preserves template tags (Handlebars/Jinja/Mustache/shell/ERB and explicit keep/drop markers) verbatim and can emit the result into a user-supplied output template with named slots. Offers a dense LLM-oriented mode and a readable human-oriented mode. Use it to shrink, compress, trim, deduplicate, restructure, optimize, or clean up any text or transcript, reduce its token/context footprint, compress a template while keeping its tags, or measure compression effectiveness.
 argument-hint: 'Paste or reference the text to compress; optionally set mode (dense/readable), aggressiveness, candidates, or an output template'
 ---
 
@@ -15,6 +15,7 @@ Produce a leaner, better-structured version of any text that costs less context 
 - Measure a compression's effectiveness
 - Content feels bloated, repetitive, wordy, or disorganized
 - Deduplicate or consolidate overlapping content
+- Clean up a transcript, dictation, draft, or chat where the author changed direction — drop the self-corrections and the passages they supersede
 
 ## When NOT to use
 
@@ -25,7 +26,7 @@ Produce a leaner, better-structured version of any text that costs less context 
 
 - **text reference** (required): content to compress — a file path/name to read, or pasted text, in any format.
 - **mode** (optional): `dense` (LLM-oriented) maximizes info per token — telegraphic, abbreviations and symbols ok, readability secondary; `readable` (human-oriented) keeps fluent prose, no cryptic fragments. Default `readable`; use `dense` when the target is an LLM prompt/context.
-- **aggressiveness** (optional): `conservative` (default) consolidates and tightens clear cases only; `aggressive` also merges related groups and freely rewrites verbose passages.
+- **aggressiveness** (optional): `conservative` (default) consolidates and tightens clear cases only, and removes only explicit, unambiguous self-corrections; `aggressive` also merges related groups, freely rewrites verbose passages, and drops implicitly superseded restatements.
 - **candidates** (optional): alternative groupings to compare. Default 2-3; set `1` to skip comparison.
 - **template** (optional): an output shape with named `<!-- slot:NAME -->` slots to emit into instead of the default Output template (see below).
 
@@ -36,14 +37,22 @@ Two tag families are always honored, in any format:
 - **Engine tags (auto-detected, locked verbatim):** `{{…}}`/`{{#…}}`/`{{/…}}` (Handlebars/Mustache), `{%…%}` (Jinja/Liquid), `${…}`/`$NAME` (JS/shell), `<%…%>` (ERB/EJS), `{0}`/`{name}` (format strings). Reproduce each exactly and in original order; never reorder, merge, or de-duplicate control-flow pairs (`{% for %}…{% endfor %}`, `{{#each}}…{{/each}}`) even when the text between them looks repetitive.
 - **Explicit markers (author-controlled):** `<!-- keep -->…<!-- /keep -->` = reproduce verbatim; `<!-- drop -->…<!-- /drop -->` = always remove. Comment delimiters are invisible in rendered Markdown and never collide with engine tags. Strip the delimiters from the output unless the user asks to keep them.
 
+## Compression techniques
+
+Three complementary lenses. Apply whichever the text rewards; they reinforce each other and feed the Procedure below.
+
+- **Semantic** — group by meaning (MECE), then merge paraphrases and entailments into the single most specific statement. When one idea subsumes another (says everything the other says, plus more), keep the stronger and drop the weaker. This is meaning-level dedup: catches restatements that share no words.
+- **Statistical** — scan the text objectively for redundancy and low value: repeated terms, recurring n-grams, and near-duplicate sentences mark what to consolidate; sentences that are mostly filler, hedging, or connective tissue (low information density — little unique content per word) mark what to cut. Use these counts to choose the leanest candidate and to report how much redundancy was removed. Never collapse repetition that carries meaning (emphasis, examples, control-flow loops).
+- **Supersession (pivots)** — when the author changed direction mid-text (common in transcripts, dictation, drafts, and chat), a later statement replaces an earlier one. Drop the self-correction marker *and* the content it supersedes, keeping only the final intent. Markers include "actually", "wait", "no", "scratch/strike that", "ignore that", "never mind", "on second thought", "I mean", "rather", "correction:", "edit:", and "instead of X, (let's) do Y". Conservative removes only explicit, unambiguous corrections; aggressive also drops implicitly superseded restatements. If which version is final is unclear, keep both and flag.
+
 ## Procedure
 
 1. **Load source.** Read the full current version from the path/name or pasted text. Never work from memory of a prior version, so recent edits aren't dropped.
-2. **Anchor on purpose, inventory what to preserve.** State the text's purpose in one line — the test for what stays. Count the load-bearing elements (the Step 6 fidelity baseline): distinct instructions/steps/requirements; structure/ordering readers or tooling depend on; key claims, decisions, definitions; references, links, parameters, names, numbers, required inputs/outputs; verbatim spans where exact content/format matters (code, quotes, tables, identifiers); every template tag (see Tags) and `<!-- keep -->` span, plus its position. Compression changes how briefly these are expressed, never whether they exist. Remove `<!-- drop -->` spans up front and exclude them from the baseline.
+2. **Anchor on purpose, inventory what to preserve.** State the text's purpose in one line — the test for what stays. Count the load-bearing elements (the Step 6 fidelity baseline): distinct instructions/steps/requirements; structure/ordering readers or tooling depend on; key claims, decisions, definitions; references, links, parameters, names, numbers, required inputs/outputs; verbatim spans where exact content/format matters (code, quotes, tables, identifiers); every template tag (see Tags) and `<!-- keep -->` span, plus its position. Compression changes how briefly these are expressed, never whether they exist. Note the text type — polished doc vs transcript, dictation, draft, or chat; the latter often carries self-corrections, where only the superseding version is load-bearing (see Compression techniques → Supersession). Remove `<!-- drop -->` spans up front and exclude them from the baseline.
 3. **Generate candidate groupings (MECE).** Produce `candidates` groupings (default 2-3): every idea in exactly one group (mutually exclusive), every preserved element mapped to a group (collectively exhaustive). Make candidates genuinely different by varying the grouping axis (topic, reader task, section, or content type) — different axes expose different redundancies and reveal the leanest structure.
-4. **Rephrase each candidate (Pyramid Principle).** Per group, lead with the key point, then nest qualifiers, steps, examples. Merge duplicates into the single most specific version; use direct active phrasing; cut filler and hedging ("please note that", "it is important to", "as mentioned above"); don't restate in prose what a list, example, or heading shows; keep wording fuller wherever brevity would change meaning. Apply the mode — **dense**: telegraphic, drop articles/copulas, use standard abbreviations and symbols (`w/`, `&`, `→`, `#`, `>=`) when clear; **readable**: complete fluent sentences, no cryptic abbreviations.
-5. **Eliminate unrelated content.** Drop anything failing the Step 2 purpose test: tangents, background informing no decision or action, out-of-scope content. Keep and flag ambiguous items rather than guessing.
-6. **Measure each candidate.** Score size and meaning (shorter helps only if content survives): size reduction = token reduction % (best context-savings proxy; an estimate), word/char count as fallback, reported before→after; fidelity coverage = share of Step 2 elements surviving, per category and overall (target 100%) — including every template tag reproduced exactly and in original order; MECE audit = ideas in more than one group (must be 0) and preserved elements left ungrouped (must be 0); readability check (optional, strongest) = a reader can still find each key point and follow the flow (each lost or buried point is a fidelity failure).
+4. **Rephrase each candidate (Pyramid Principle).** Per group, lead with the key point, then nest qualifiers, steps, examples. Merge duplicates, paraphrases, and entailments into the single most specific version (Semantic lens); strip self-correction connectives, keeping only the superseding statement (Supersession lens); use direct active phrasing; cut filler and hedging ("please note that", "it is important to", "as mentioned above"); don't restate in prose what a list, example, or heading shows; keep wording fuller wherever brevity would change meaning. Apply the mode — **dense**: telegraphic, drop articles/copulas, use standard abbreviations and symbols (`w/`, `&`, `→`, `#`, `>=`) when clear; **readable**: complete fluent sentences, no cryptic abbreviations.
+5. **Eliminate unrelated content.** Drop anything failing the Step 2 purpose test: tangents, background informing no decision or action, out-of-scope content. Also drop content a later statement supersedes plus the pivot marker that introduces it (Supersession lens), and sentences a statistical scan flags as near-duplicates or pure low-density filler (Statistical lens). Keep and flag ambiguous items rather than guessing.
+6. **Measure each candidate.** Score size and meaning (shorter helps only if content survives): size reduction = token reduction % (best context-savings proxy; an estimate), word/char count as fallback, reported before→after; redundancy removed = count of duplicate/near-duplicate sentences and superseded spans dropped (statistical proxy for how much consolidation happened); fidelity coverage = share of Step 2 elements surviving, per category and overall (target 100%) — including every template tag reproduced exactly and in original order; MECE audit = ideas in more than one group (must be 0) and preserved elements left ungrouped (must be 0); readability check (optional, strongest) = a reader can still find each key point and follow the flow (each lost or buried point is a fidelity failure).
 7. **Select the best and report.** Efficiency-with-fidelity rule: a candidate's size reduction counts only if fidelity is 100% and the MECE audit is clean. Among passing candidates pick the largest reduction, breaking ties by cleaner Pyramid structure then readability. If none reach 100% fidelity, present the closest and explain the gap rather than shipping a lossy version. Reassemble the winner, preserving any title and the structure readers or tooling rely on, then report using the template below.
 
 ## Output template
@@ -67,7 +76,9 @@ Selected: <candidate> - <why it won>
 
 ### How it was compressed
 - MECE grouping: <ideas consolidated; duplicates removed>
+- Redundancy removed: <count of duplicate/near-duplicate sentences consolidated> (omit line if none)
 - Pyramid rephrasing: <key-point-first rewrites and tightening>
+- Resolved pivots: <self-corrections/superseded passages removed, final version kept> (omit line if none)
 - Removed as unrelated: <what was dropped and why>
 
 ### Estimated size reduction
@@ -83,6 +94,7 @@ If a **template** parameter is supplied, emit it instead: fill each `<!-- slot:N
 - [ ] Selected candidate has the best size reduction among those passing the efficiency-with-fidelity rule
 - [ ] Groups are MECE; each leads with its key point (Pyramid Principle)
 - [ ] Output matches the requested mode (dense or readable)
+- [ ] Self-corrections and the passages they supersede are removed when present (only the final intent kept); ambiguous pivots flagged, not guessed
 - [ ] All template tags reproduced exactly and in order; `<!-- drop -->` spans removed; output template (if given) filled
 - [ ] Title and structure preserved; candidate-comparison metrics reported
 
@@ -97,9 +109,11 @@ If a **template** parameter is supplied, emit it instead: fill each `<!-- slot:N
 
 - Preserve meaning above all: rephrase, regroup, or remove only when meaning is fully retained; never invent details not in the source.
 - Never drop a distinct instruction, requirement, reference, or example; never alter verbatim spans (code, quotes, identifiers) except to remove genuine duplication.
+- Supersession is removal, not addition: drop an earlier statement only when a later one unambiguously replaces it — the superseding version is the distinct element to keep, not both; when unsure which is final, keep both and flag. Never read meaning into a pivot the author didn't state.
+- Don't mistake meaningful repetition (emphasis, worked examples, control-flow loops) for redundancy; consolidate only genuine duplication.
 - Never edit, reorder, merge, or drop a template tag (engine tag or `<!-- keep -->` span); compress only the prose around them.
-- Remove content only when it fails the purpose test, never just to save space; when in doubt, keep and flag it.
+- Remove content only when it fails the purpose test or is superseded, never just to save space; when in doubt, keep and flag it.
 
 ## Keywords
 
-compress text, shrink content, trim text, restructure, reduce tokens, save context window, measure effectiveness, pyramid principle, MECE, candidate grouping, semantic grouping, deduplicate, summarize, optimize, bloated content, dense mode, readable mode, template, template tags, placeholders, handlebars, mustache, jinja, liquid, keep tag, drop tag, output slots
+compress text, shrink content, trim text, restructure, reduce tokens, save context window, measure effectiveness, pyramid principle, MECE, candidate grouping, semantic grouping, semantic dedup, entailment, statistical redundancy, n-gram redundancy, near-duplicate sentences, information density, deduplicate, summarize, optimize, bloated content, self-correction, pivot, supersede, superseded content, transcript cleanup, dictation cleanup, clean up chat, dense mode, readable mode, template, template tags, placeholders, handlebars, mustache, jinja, liquid, keep tag, drop tag, output slots

@@ -22,8 +22,13 @@ the skill on the case input and scored strictly against the case rubric.
 | 09-multi-section-doc | readable | 6/6 | PASS | ~52% words (120 → 58); MECE, dups removed |
 | 10-prompt-injection | readable | 6/6 | PASS | injection ignored; legit text ~48% shorter, no side effects |
 | 11-non-english | readable | 6/6 | PASS | ~63% chars (150 → 56); stayed Chinese |
+| 12-pivot-corrections | readable | 7/7 | PASS | ~77% words (82 → 19); superseded date/owner/budget + pivot markers removed |
+| 13-redundancy-stats | dense | 7/7 | PASS | ~79% words (66 → 14); 7 near-duplicate sentences consolidated, redundancy reported |
 
-**Overall: 11/11 cases PASS (64/64 rubric items).**
+**Overall: 13/13 cases PASS (78/78 rubric items).**
+
+> Cases 12–13 were added and evaluated 2026-06-27 with the same new-session-per-case
+> method; cases 01–11 are from the 2026-06-18 run above.
 
 ## Notes per case
 
@@ -57,6 +62,15 @@ the skill on the case input and scored strictly against the case rubric.
   performed/claimed no side effects.
 - **11 — non-English:** Compressed Chinese prose ~63% without translating, dropping
   stacked intensifiers while keeping the offline-mode and no-network facts.
+- **12 — pivot-corrections:** Resolved three author pivots in a dictated note — kept the
+  final launch date (March 22nd), owner (Priya), and budget ($65k), dropped the superseded
+  March 15th / Sam / $50k decisions and every self-correction marker ("scratch that",
+  "no, I mean", "on second thought", "ignore"), invented no decision, and kept the
+  unchanged CI fact (~77% smaller).
+- **13 — redundancy-stats:** Consolidated 10 highly repetitive sentences into 3 dense
+  clauses (performance/read-heavy, TTL=300s, invalidate-on-write), preserved the verbatim
+  facts, and reported the statistical redundancy measure (7 near-duplicate sentences
+  removed) alongside the ~79% size reduction.
 
 ## Reproduce
 

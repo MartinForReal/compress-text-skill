@@ -4,6 +4,27 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Three named compression lenses** in [SKILL.md](skills/compress-text/SKILL.md), with a
+  new "Compression techniques" section and matching procedure/guardrail/success-criteria
+  updates:
+  - **Semantic** — merge paraphrases and entailments into the single most specific
+    statement (meaning-level dedup that catches restatements sharing no words).
+  - **Statistical** — scan repeated n-grams, near-duplicate sentences, and low
+    information-density filler to target redundancy objectively, and report how much
+    redundancy was removed alongside the size reduction.
+  - **Supersession (pivots)** — in transcripts, dictation, drafts, and chat, drop
+    self-correction markers ("actually", "scratch that", "I mean", "instead", …) together
+    with the passages they supersede, keeping only the final intent; ambiguous pivots are
+    kept and flagged. Conservative removes explicit corrections only; aggressive also drops
+    implicitly superseded restatements.
+- Two functional eval cases: `12-pivot-corrections.md` (supersession) and
+  `13-redundancy-stats.md` (statistical consolidation + reporting), plus two triggering
+  rows for transcript/pivot cleanup.
+
 ## [0.1.0] - 2026-06-18
 
 ### Added
@@ -25,4 +46,5 @@ All notable changes to this project are documented here. The format is based on
 - Repository validation script (`scripts/validate.sh`) and GitHub Actions CI
   (`.github/workflows/ci.yml`).
 
+[Unreleased]: https://github.com/MartinForReal/compress-text-skill/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/MartinForReal/compress-text-skill/releases/tag/v0.1.0

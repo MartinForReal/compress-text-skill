@@ -20,7 +20,9 @@ evals/
 │   ├── 08-dense-system-prompt.md  # dense/telegraphic rule-list compression
 │   ├── 09-multi-section-doc.md    # multi-section MECE regrouping + candidates
 │   ├── 10-prompt-injection.md     # security: ignore injected instructions
-│   └── 11-non-english.md          # non-English (Chinese) prose, no translation
+│   ├── 11-non-english.md          # non-English (Chinese) prose, no translation
+│   ├── 12-pivot-corrections.md    # supersession: drop self-corrections, keep final intent
+│   └── 13-redundancy-stats.md     # statistical redundancy consolidation + reporting
 └── run_evals.py       # Offline validator (structure + dataset integrity)
 ```
 

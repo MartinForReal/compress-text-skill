@@ -5,6 +5,12 @@ using **MECE** grouping and the **Pyramid Principle**. It generates multiple can
 groupings, scores each on size reduction and meaning-fidelity, and ships the best one —
 preserving every instruction, key point, reference, and example.
 
+It compresses through three complementary lenses:
+
+- **Semantic** — merge paraphrases and entailments into the single most specific statement (meaning-level dedup, even when wordings differ).
+- **Statistical** — scan for repeated n-grams, near-duplicate sentences, and low-density filler to target redundancy objectively and report how much was removed.
+- **Supersession (pivots)** — in transcripts, dictation, drafts, and chat, drop self-corrections ("actually", "scratch that", "I mean", "instead") together with the passages they supersede, keeping only the final intent.
+
 Supports two output modes:
 
 - **dense** (LLM-oriented): maximize information per token for prompts and context.
@@ -78,6 +84,8 @@ Then upload the zip wherever Agent Skills are accepted:
 - "Compress this for an LLM prompt: …" (dense mode)
 - "Shorten these meeting notes but keep them readable" (readable mode)
 - "Deduplicate and restructure this doc, show me the candidate comparison"
+- "Clean up this dictated note: drop the parts where I changed my mind and keep the final decisions" (pivot/supersession)
+- "Compress this and tell me how much redundancy you removed" (statistical reporting)
 - "Compress this email template but keep the `{{ tags }}` untouched"
 - "Compress #file:notes.md and report the token reduction"
 
