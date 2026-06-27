@@ -41,11 +41,22 @@ All notable changes to this project are documented here. The format is based on
   Held-out set refreshed with 4 new `val` cases (`19`–`22`: negations/exceptions, conditional
   branches, numeric fidelity, factual-contradiction flagging); held-out ratio-gate 2/4 → 3/4 with
   no fidelity regression and over-cut anchors (`04`/`09`) clean.
+- **Held-out probes (round 03):** 4 new `val` cases (`23`–`26`: modal obligation must/should/may,
+  numeric quantifier-bounds, first-use acronym expansion, authority/precedence rules) added as
+  standing held-out probes. `23` confirmed the skill already preserves modal obligation levels;
+  `24`/`25`/`26` document an unaddressed under-tightening gradient on low-density prose.
 
 ### Changed
 
-- Eval suite grows from 13 to 22 functional cases (9 held-out `val` cases for SkillOpt across two
-  rounds); static validator and offline self-test (22/22) both green.
+- Eval suite grows from 13 to 26 functional cases (13 held-out `val` cases for SkillOpt across three
+  rounds); static validator and offline self-test (26/26) both green.
+
+### Notes
+
+- **Round 03 evaluated a bounded edit that was rejected** (no skill change). A low-density-tightening
+  edit was drafted to close the `24`/`25`/`26` gradient, but the frozen agent's run-to-run variance
+  exceeded the edit's effect, so the held-out gate did not improve (1/4 → 0/4). Per the SkillOpt
+  acceptance rule the edit was reverted; `SKILL.md` is unchanged. See `evals/OPTIMIZATION_LOG.md`.
 
 ## [0.1.0] - 2026-06-18
 

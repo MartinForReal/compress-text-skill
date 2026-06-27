@@ -101,7 +101,7 @@ Run just the evaluation suite (offline static checks, no model required):
 
 ```bash
 python3 evals/run_evals.py            # structure + dataset integrity
-python3 evals/run_functional.py --selftest   # deterministic behaviour checks (22/22 cases)
+python3 evals/run_functional.py --selftest   # deterministic behaviour checks (26/26 cases)
 ```
 
 The suite also includes a labelled triggering dataset, functional rubric cases for

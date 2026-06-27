@@ -1,0 +1,29 @@
+## Compressed text: Password requirements
+
+Password rules:
+- Passwords must be 12-64 characters; anything under 12 is rejected at sign-up.
+- Each password must include at least one uppercase letter and at least one digit, and must not reuse any of the user's last 5 passwords.
+- Accounts lock after exactly 5 consecutive failed login attempts and stay locked for at least 30 minutes.
+- Password reset links are valid only for 15 minutes after issuance.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A | rule area | ~30% | 9/9 | yes |
+| B | account lifecycle | ~18% | 9/9 | yes |
+| C | limit type | ~27% | 9/9 | yes |
+Selected: A - it kept every numeric bound and rule while using the shortest complete grouping.
+
+### Preserved intact
+- 7 instructions/requirements, 6 exact numeric limits, 0 verbatim spans/examples, title/list structure
+
+### How it was compressed
+- MECE grouping: separated length/composition/history, lockout, and reset-link rules.
+- Redundancy removed: 1 near-duplicate minimum-length restatement consolidated with its sign-up consequence.
+- Pyramid rephrasing: each bullet leads with the rule, then keeps exact bounds and conditions.
+- Removed as unrelated: no load-bearing content; only excess phrasing around limits was dropped.
+
+### Estimated size reduction
+~96 words -> ~67 words (~30% smaller)

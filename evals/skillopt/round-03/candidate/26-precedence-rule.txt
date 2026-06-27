@@ -1,0 +1,25 @@
+## Compressed text: On-call policy
+
+On-call policy. Pages go first to the primary on-call engineer, who acknowledges every page within 15 minutes; otherwise, the page automatically escalates to the secondary on-call engineer. Severity follows the runbook, the source of truth, over the monitoring dashboard when they disagree. During a Sev-1 incident, the incident commander has final authority and may override standard change-freeze rules. Outside an active incident, change-freeze rules always apply and no one may override them. After every incident, write a blameless postmortem within three business days.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A | precedence and exceptions | ~15% | 9/9 | yes |
+| B | policy sections | ~6% | 9/9 | yes |
+| C | incident flow | ~16% | 9/9 | yes |
+Selected: C - it preserved all precedence rules and exceptions with the largest conservative reduction.
+
+### Preserved intact
+- 6 rules/instructions, 8 names/numbers/conditions, 0 verbatim spans/examples, title/paragraph structure
+
+### How it was compressed
+- MECE grouping: consolidated page escalation, severity authority, Sev-1 override, change-freeze default, and postmortem rules.
+- Redundancy removed: 1 duplicate 15-minute deadline restatement consolidated.
+- Pyramid rephrasing: precedence rules lead with the authority, then state the condition and exception.
+- Removed as unrelated: no load-bearing content; only repeated wording was dropped.
+
+### Estimated size reduction
+~99 words -> ~83 words (~16% smaller)

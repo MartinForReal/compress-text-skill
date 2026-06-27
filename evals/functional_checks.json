@@ -283,5 +283,81 @@
         "require_regex": ["%"]
       }
     }
+  },
+  "23-modal-obligation": {
+    "split": "val",
+    "reference_output": "## Compressed text: Payments API integration guide\n\n- Must authenticate every request with a valid API key; unkeyed requests are rejected.\n- Should retry a failed 503 with exponential backoff (503 = temporarily unavailable).\n- May cache successful GET responses up to 60 seconds; caching is optional.\n- Must never log the full card number.\n- Should show the API decline reason when a payment is declined.\n- May use the v2 or v3 endpoint; v3 is recommended.\n\n---\n\n### How it was compressed\n- Redundancy removed: the restated 'authenticating every request is mandatory' and 'strictly prohibited' echoes consolidated.\n- Obligation levels (must / should / may) preserved exactly.\n\n### Estimated size reduction\n~126 words -> ~71 (~44% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["api key", "503", "backoff", "card number", "60", "v3"],
+        "require_regex": [
+          "\\bmust\\b|required|mandatory",
+          "\\bshould\\b|recommend|advis",
+          "\\bmay\\b|optional",
+          "never|must not|prohibit|do not log|don't log"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "24-quantifier-bounds": {
+    "split": "val",
+    "reference_output": "## Compressed text: Password requirements\n\n- Length: at least 12 and no more than 64 characters.\n- Must include at least one uppercase letter and at least one digit.\n- Must not reuse the last 5 passwords.\n- 5 failed logins in a row lock the account for at least 30 minutes.\n- Reset links are valid for only 15 minutes.\n\n---\n\n### How it was compressed\n- Redundancy removed: the restated 'shorter than 12 is rejected' echo of the minimum dropped.\n\n### Estimated size reduction\n~96 words -> ~56 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["uppercase", "digit"],
+        "require_regex": [
+          "at least.{0,8}12|min(imum)?.{0,8}12|12\\+|12 ?(to|-) ?64|12 ?char",
+          "no more than|at most|max(imum)?|up to|<= ?64|12 ?(to|-) ?64",
+          "last 5|5 (previous|prior|old|former)|5 password|reuse",
+          "5 (failed|consecutive|wrong|incorrect|bad|login)|after 5",
+          "30 min",
+          "15 min"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "25-acronym-first-use": {
+    "split": "val",
+    "reference_output": "## Compressed text: Platform onboarding\n\n- Sign in with Single Sign-On (SSO); after first login, SSO holds your session for the day.\n- Set up Multi-Factor Authentication (MFA) on day one; every account requires MFA.\n- Accounts are auto-provisioned from HR via System for Cross-domain Identity Management (SCIM).\n- If SSO fails or MFA is lost, the help desk can reset it.\n- Help-desk ticket Service Level Agreement (SLA): one business day.\n\n---\n\n### How it was compressed\n- Redundancy removed: repeated full forms of SSO and MFA shortened to the acronym after first use.\n\n### Estimated size reduction\n~104 words -> ~67 (~36% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.78,
+        "must_contain": ["SSO", "MFA", "SCIM", "SLA"],
+        "must_contain_ci": ["single sign-on", "multi-factor authentication", "cross-domain identity management", "service level agreement", "help desk"],
+        "require_regex": ["business[ -]day"]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
+  },
+  "26-precedence-rule": {
+    "split": "val",
+    "reference_output": "## Compressed text: On-call policy\n\n- Primary on-call acknowledges each page within 15 minutes; if not, it escalates to the secondary.\n- Runbook is the source of truth: if it and the dashboard disagree on severity, follow the runbook.\n- In a Sev-1, the incident commander has final authority and may override the change-freeze.\n- Outside incidents, the change-freeze always applies and no one may override it.\n- Write a blameless postmortem within three business days.\n\n---\n\n### How it was compressed\n- Redundancy removed: the 'does not acknowledge within 15 minutes' clause folded into the escalation rule.\n\n### Estimated size reduction\n~99 words -> ~71 (~28% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.80,
+        "must_contain_ci": ["15 min", "secondary", "runbook", "dashboard", "postmortem"],
+        "require_regex": [
+          "source of truth|follow the runbook|runbook .{0,30}(win|preced|truth|over)|runbook, not",
+          "final authority|incident commander.{0,40}(authority|override|overrule)|commander.{0,20}(override|overrule)",
+          "override|overrule",
+          "change.?freeze",
+          "three business day|3 business day",
+          "sev ?-? ?1|severity[ -]?1|sev1"
+        ]
+      },
+      "full": {
+        "require_regex": ["%"]
+      }
+    }
   }
 }

@@ -37,7 +37,7 @@ Beyond the rubric scoring above, `run_functional.py --selftest` scores a stored 
 (`functional_checks.json`). It runs with no model/credentials and gates CI via
 `scripts/validate.sh`.
 
-**Self-test: 22/22 references PASS** (13 `train` + 9 held-out `val`).
+**Self-test: 26/26 references PASS** (13 `train` + 13 held-out `val`).
 
 ## SkillOpt held-out validation (round 01)
 
@@ -72,6 +72,29 @@ The accepted edit sharpens `aggressive` mode to shorten repeated long noun phras
 mention and cut scope-setting context, with a caveat that never drops a load-bearing qualifier.
 The agent also correctly kept-and-flagged a never-trained factual contradiction (`22`). Full
 write-up: [`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
+
+## SkillOpt held-out validation (round 03) — rejected edit
+
+Round 02's gate was refreshed again with 4 new `val` cases (`23`–`26`): modal obligation
+(must/should/may), numeric quantifier-bounds, first-use acronym expansion, and
+authority/precedence rules. The frozen-agent baseline scored **1/4** on the ratio-gate (full
+behavioral fidelity throughout) — the misses were a consistent **under-tightening of low-density
+prose** (opener greetings, redundant intensifiers, restatements of an already-stated rule).
+
+| Skill | Held-out (val) ratio-gate | Restraint anchors (03/04/16) |
+|-------|---------------------------|------------------------------|
+| Baseline (committed `1872d37`) | 1/4 | — |
+| Trial bounded edit | **0/4 — not improved** | 3/3 (no over-cut) |
+
+A bounded edit naming those filler classes as cuttable was drafted and rolled out, but the
+frozen agent's run-to-run variance (prose↔bullet format flips, ±0.05–0.10 ratio swings) exceeded
+the edit's effect, so the held-out gate **did not improve** (1/4 → 0/4) even though the edit was
+safe (restraint anchors all held) and directionally correct where visible. Per the SkillOpt
+acceptance rule (*held-out must improve*), the edit was **REJECTED and reverted** — `SKILL.md` is
+unchanged. The 4 cases are kept as standing held-out probes (`24`/`25`/`26` mark an unaddressed
+under-tightening gradient for a future, lower-variance round). This round demonstrates the gate's
+integrity: not every round ships an edit. Full write-up:
+[`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
 
 ## Notes per case
 
@@ -123,7 +146,7 @@ Run the static validator (offline gate):
 python3 evals/run_evals.py
 ```
 
-Run the functional harness self-test (offline, scores golden references for all 22 cases):
+Run the functional harness self-test (offline, scores golden references for all 26 cases):
 
 ```bash
 python3 evals/run_functional.py --selftest
@@ -136,6 +159,11 @@ python3 evals/run_functional.py --grade evals/skillopt/round-01/baseline  --spli
 python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate --split val
 python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate \
   --cases 01-bloated-readme,03-already-lean,13-redundancy-stats
+# round 03 (rejected edit): baseline 1/4 vs trial candidate 0/4 on the 23–26 probes
+python3 evals/run_functional.py --grade evals/skillopt/round-03/baseline \
+  --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate \
+  --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
 ```
 
 Run the full functional cases against a live model: execute each `cases/*.md` input with its

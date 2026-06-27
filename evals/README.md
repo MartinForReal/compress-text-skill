@@ -31,7 +31,11 @@ evals/
 │   ├── 19-negation-exception.md   # [held-out r02] keep every buried negation/exception
 │   ├── 20-conditional-branches.md # [held-out r02] keep every branch/guard of a runbook
 │   ├── 21-numeric-fidelity.md     # [held-out r02] preserve distinct figures, drop duplicate
-│   └── 22-conflicting-facts-flag.md # [held-out r02] conflicting facts kept + flagged, not merged
+│   ├── 22-conflicting-facts-flag.md # [held-out r02] conflicting facts kept + flagged, not merged
+│   ├── 23-modal-obligation.md     # [held-out r03] keep must/should/may obligation levels distinct
+│   ├── 24-quantifier-bounds.md    # [held-out r03] preserve every numeric bound/quantifier exactly
+│   ├── 25-acronym-first-use.md    # [held-out r03] keep first-use acronym expansions, then acronym
+│   └── 26-precedence-rule.md      # [held-out r03] keep authority/precedence (source-of-truth) rules
 ├── functional_checks.json # Deterministic assertions + golden references per case (+ train/val split)
 ├── run_functional.py  # Functional harness (offline self-test / live model / grade rollouts)
 ├── skillopt/          # SkillOpt rollout trajectories (round-NN/baseline, round-NN/candidate)
@@ -111,9 +115,10 @@ labelled with a `split` in `functional_checks.json`:
 
 - **`train`** (held-in) — the original `01`–`13`; used to design lenses and reflect on failures.
 - **`val`** (held-out) — fresh cases in unseen domains, added per round (`14`–`18` round 01,
-  `19`–`22` round 02); used **only** as the acceptance gate. An edit is kept only if the `val`
-  split improves and `train` does not regress (validation-gated update). When a `val` set
-  saturates it is refreshed with harder cases for the next round. Rollout trajectories live in
+  `19`–`22` round 02, `23`–`26` round 03); used **only** as the acceptance gate. An edit is kept
+  only if the `val` split improves and `train` does not regress (validation-gated update). When a
+  `val` set saturates it is refreshed with harder cases for the next round; a round may also
+  **reject** its edit (round 03 did) when the gate does not improve. Rollout trajectories live in
   `skillopt/`; each round is written up in `OPTIMIZATION_LOG.md`.
 
 ## Extending the suite

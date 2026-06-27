@@ -188,3 +188,107 @@ python3 evals/run_functional.py --grade evals/skillopt/round-02/baseline  --case
 python3 evals/run_functional.py --grade evals/skillopt/round-02/candidate --cases 19-negation-exception,20-conditional-branches,21-numeric-fidelity,22-conflicting-facts-flag
 python3 evals/run_functional.py --grade evals/skillopt/round-02/candidate --cases 04-preserve-verbatim,05-template-tags,09-multi-section-doc
 ```
+
+---
+
+## Round 03 — REJECTED edit: low-density tightening (opener greetings, intensifiers, restatements)
+
+**Date:** held-out refresh round following round 02 (skill committed at `1872d37`). **Outcome: edit
+rejected — no `SKILL.md` change.** This round is the methodology working as intended: the held-out
+gate refused a plausible, directionally-correct, *safe* edit because it did not actually improve
+the gate. Not every round accepts.
+
+### Setup
+Refreshed the held-out set with 4 fresh `val` cases in new domains, each probing a failure mode the
+suite did not yet cover:
+- `23-modal-obligation` — RFC-2119-style **must / should / may** obligation levels must each survive
+  (not be flattened into uniform imperatives). *[hypothesized gradient]*
+- `24-quantifier-bounds` — numeric **bounds/quantifiers** ("at least 12", "no more than 64",
+  "last 5", "exactly 5") must survive precisely. *[stress]*
+- `25-acronym-first-use` — first-use **acronym expansions** (SSO/MFA/SCIM/SLA) preserved, acronym
+  used thereafter. *[anchor]*
+- `26-precedence-rule` — **authority/precedence** meta-rules ("runbook is source of truth", "incident
+  commander has final authority and may override") must survive. *[stress]*
+
+### 1–2. Rollout + score (baseline = committed skill)
+Frozen-agent rollout, graded deterministically (`round-03/baseline/`). One genuine check artifact
+was fixed first: case 25's `must_contain` "business day" rejected the faithful hyphenated compound
+"one-business-day"; corrected to a `business[ -]day` regex (a wrong check, not a skill failure).
+
+```
+Behavioral fidelity:  23 ✓ · 24 ✓ · 25 ✓ · 26 ✓   → 4/4
+Word-ratio gate:      23 PASS · 24 FAIL(0.65) · 25 FAIL(0.81) · 26 FAIL(0.87)   → 1/4
+```
+
+The hypothesized modal-flattening gradient did **not** appear — `23` preserved must/should/may
+cleanly (the skill is already robust here). Instead, all misses were mild **under-compression**:
+`24` left a near-duplicate restatement ("shorter than 12 is rejected" echoing "12-64"); `25` kept an
+opener greeting ("Welcome to platform onboarding") and scope-padding; `26` kept redundant modifiers
+("automatically", "standard", "active"). Full fidelity throughout.
+
+### 3. Reflect
+Unified gradient: the skill **under-tightens low-density prose** — opener/greeting lines, redundant
+intensifier/manner words, and restatements of an already-stated rule are not named as cuttable, so
+(especially) conservative mode leaves them. Error-correlated region: the Statistical lens and
+Procedure step 4 filler list.
+
+### 4. Propose bounded edits (2, mirrored)
+Extended the Statistical lens + step 4 to name (a) sentences that merely restate a rule/bound/fact
+already given, (b) topic-opener greetings the title already implies, and (c) redundant
+intensifier/manner words — as low-density filler cut **in any mode** (with a caveat: never a word
+that adds a rule, condition, scope, or number). `description` unchanged (986).
+
+### 5. Validate (the gate) — the edit FAILED to improve held-out
+Re-rolled the **edited** skill on the 4 held-out cases. The first candidate batch was confounded
+(7 tasks in one turn, and the agent switched from prose to a bulleted format that inflates `\S+`
+token counts), so it was **re-rolled under matched conditions** (fresh agent, the same 4 tasks as
+baseline). Both rolls agreed:
+
+```
+                       baseline    candidate (clean, matched)
+23-modal-obligation    PASS        FAIL (0.63)
+24-quantifier-bounds   FAIL 0.65   FAIL (0.74)
+25-acronym-first-use   FAIL 0.81   FAIL (0.81)
+26-precedence-rule     FAIL 0.87   FAIL (0.84)
+Held-out gate:         1/4    ->   0/4   (NOT improved)
+
+Over-cut / restraint anchors (edit's risk direction):
+03-already-lean  PASS · 04-preserve-verbatim PASS · 16-meaningful-repetition PASS   → 3/3 clean
+```
+
+The edit *was* directionally working where visible (in one rollout, case 25 dropped exactly the
+"Welcome to platform onboarding" greeting the edit targets, 0.81→0.79), and it caused **no
+over-cutting** — the restraint anchors (already-lean, verbatim, meaningful-repetition) all held. But
+the **frozen agent's run-to-run variance is larger than the edit's effect**: case `23` flips
+PASS↔FAIL on format choice (prose vs bullets), `24` swings 0.65↔0.74, `25` keeps-or-drops the
+greeting. Across matched rolls the held-out gate went 1/4 → 0/4, i.e. it did **not** improve.
+
+### 6. Decision — REJECT (revert the edit)
+SkillOpt accepts an edit only if **held-out improves AND training does not regress**. Here held-out
+did not improve, so the edit is reverted; `SKILL.md` is unchanged from `1872d37`. The edit was safe
+(anchors clean) and reasonable, but "safe and reasonable" is not the bar — "demonstrably
+generalizes" is, and a single-rollout gate dominated by agent variance cannot show it. Forcing an
+ACCEPT here would be fitting to noise.
+
+The 4 cases are **retained** as standing held-out probes (`23`–`26`, self-test 26/26 on their golden
+references). `24`/`25`/`26` remain a documented, unaddressed **under-tightening gradient** for a
+future round — one that would need either a sharper, lower-variance intervention or a multi-rollout
+(best-of-N / majority) gate to separate signal from the frozen agent's formatting variance.
+
+### Net effect
+| Metric | Before | After |
+|---|---|---|
+| `SKILL.md` edits accepted | — | **0 (edit rejected)** |
+| Held-out cases (val) | 9 (14–22) | **13 (14–26)** |
+| Functional cases / self-test | 22 / 22 PASS | **26 / 26 PASS** |
+| Restraint/over-cut anchors (03/04/16) under the trial edit | — | 3/3 clean |
+| Standing gradient logged | — | under-tightening of low-density prose (24/25/26) |
+
+### Reproduce
+```bash
+python3 evals/run_functional.py --grade evals/skillopt/round-03/baseline  --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate --cases 23-modal-obligation,24-quantifier-bounds,25-acronym-first-use,26-precedence-rule
+python3 evals/run_functional.py --grade evals/skillopt/round-03/candidate --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition
+```
+> The `candidate/` outputs are rollouts of the *trial* (since-reverted) edit, kept as the evidence
+> behind the REJECT decision. The committed `SKILL.md` does not contain that edit.
