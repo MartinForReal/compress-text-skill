@@ -1,0 +1,28 @@
+## Compressed text: Project brief: Apollo
+
+Project brief: Apollo
+- Kickoff date is ambiguous: March 15 and March 30 are both stated.
+- Service capacity: must handle/sustain 1,000 requests per second at peak load.
+- Marketing will prepare the launch announcement.
+- Budget is capped at $50k.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Project fact, ambiguity, capacity, ownership, budget | ~22%    | 6/6    | yes      |
+| B         | Timeline, performance, launch, and finance | ~18%    | 6/6    | yes      |
+Selected: A - It keeps the conflicting kickoff dates visible instead of choosing between them and consolidates only the clear capacity duplicate.
+
+### Preserved intact
+- 4 instructions/requirements, 1 reference, 4 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: project identity, unresolved kickoff date, capacity requirement, launch owner, and budget cap.
+- Redundancy removed: 1 near-duplicate capacity sentence consolidated.
+- Pyramid rephrasing: led with the project, flagged the date conflict, then listed stable requirements.
+- Removed as unrelated: none.
+
+### Estimated size reduction
+~49 words -> ~38 (~22% smaller)

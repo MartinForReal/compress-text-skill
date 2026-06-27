@@ -37,7 +37,7 @@ Beyond the rubric scoring above, `run_functional.py --selftest` scores a stored 
 (`functional_checks.json`). It runs with no model/credentials and gates CI via
 `scripts/validate.sh`.
 
-**Self-test: 18/18 references PASS** (13 `train` + 5 held-out `val`).
+**Self-test: 22/22 references PASS** (13 `train` + 9 held-out `val`).
 
 ## SkillOpt held-out validation (round 01)
 
@@ -55,6 +55,23 @@ The accepted edit (extend the Statistical lens + step-4 examples to treat upbeat
 status-padding as low-density filler) fixed a held-out case it was never tuned to, with no
 regression on the meaningful-repetition / already-lean / redundancy anchors. Full write-up:
 [`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
+
+## SkillOpt held-out validation (round 02)
+
+Round 01's held-out set was saturated (5/5), so it was **refreshed** with 4 new `val` cases
+(`19`–`22`) probing untested failure modes: buried negations/exceptions, conditional branches,
+exact numeric fidelity, and factual contradictions that must be kept-and-flagged. Same protocol
+(frozen-agent rollout, deterministic `--grade`, trajectories in [`skillopt/round-02/`](skillopt/round-02)).
+
+| Skill | Held-out (val) ratio-gate | Held-out fidelity | Over-cut anchors (04/09) |
+|-------|---------------------------|-------------------|--------------------------|
+| Baseline (pre-edit) | 2/4 — `19`/`20` under-compressed | 4/4 | — |
+| **After bounded edit** | **3/4** (`20` crossed, `19` 0.68→0.65) | 4/4 | **2/2 (no over-cut)** |
+
+The accepted edit sharpens `aggressive` mode to shorten repeated long noun phrases after first
+mention and cut scope-setting context, with a caveat that never drops a load-bearing qualifier.
+The agent also correctly kept-and-flagged a never-trained factual contradiction (`22`). Full
+write-up: [`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
 
 ## Notes per case
 
@@ -106,7 +123,7 @@ Run the static validator (offline gate):
 python3 evals/run_evals.py
 ```
 
-Run the functional harness self-test (offline, scores golden references for all 18 cases):
+Run the functional harness self-test (offline, scores golden references for all 22 cases):
 
 ```bash
 python3 evals/run_functional.py --selftest

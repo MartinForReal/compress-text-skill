@@ -1,0 +1,29 @@
+## Compressed text: Q3 metrics summary
+
+Q3 metrics summary:
+- Revenue: $4.2M, up from $3.1M in Q2.
+- Active users: 18,400.
+- Monthly churn: 2.3%.
+- Support: 1,205 tickets closed; median resolution time 6 hours.
+- Latest NPS: 47.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Metric category | ~59%    | 9/9    | yes      |
+| B         | Business, product, support, and sentiment | ~52%    | 9/9    | yes      |
+Selected: A - It preserves every figure while cutting the duplicate revenue statement and vacuous sentiment.
+
+### Preserved intact
+- 0 instructions/requirements, 5 references, 9 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: revenue, users, churn, support, and NPS.
+- Redundancy removed: 1 duplicate revenue sentence consolidated.
+- Pyramid rephrasing: placed each metric label first, then its figure and qualifier.
+- Removed as unrelated: vacuous sentiment about the numbers looking solid and the team being happy with the trajectory.
+
+### Estimated size reduction
+~69 words -> ~28 (~59% smaller)

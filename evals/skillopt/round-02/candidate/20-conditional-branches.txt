@@ -1,0 +1,28 @@
+## Compressed text: Deployment rules
+
+Deployment rules:
+- Green build: deploy to staging automatically.
+- Red build: do not deploy; page the on-call engineer.
+- Production deploys: require two approvals from senior engineers; never deploy on Friday or during a release freeze.
+- Failed production deploy: roll back immediately and open an incident ticket.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Build branches, production gates, failure response | ~39%    | 7/7    | yes      |
+| B         | Environment, approvals, blackout windows, incidents | ~34%    | 7/7    | yes      |
+Selected: A - It keeps every condition beside its action and merges the repeated production-approval rule.
+
+### Preserved intact
+- 7 instructions/requirements, 0 references, 0 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: staging trigger, red-build stop/page branch, production approval and blackout constraints, and failed-deploy response.
+- Redundancy removed: 1 duplicate approval sentence consolidated.
+- Pyramid rephrasing: led with each condition or production gate, then attached required actions and constraints.
+- Removed as unrelated: reminder wording and scope-setting wording about approvals before the deploy can go out.
+
+### Estimated size reduction
+~74 words -> ~45 (~39% smaller)

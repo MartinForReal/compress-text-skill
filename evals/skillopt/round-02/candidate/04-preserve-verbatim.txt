@@ -1,0 +1,28 @@
+## Compressed text: Tax facts
+
+Tax facts:
+- `calculateTax(amount)`: returns amount multiplied by tax rate 0.0825.
+- Example: `calculateTax(200)` returns 16.50.
+- Endpoint: POST /api/v2/tax; header: X-Api-Key: ${API_KEY}.
+- Never hardcode 0.0825 elsewhere.
+- Endpoint version: v2, not v1.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Function, example, endpoint, constraints | ~44%    | 8/8    | yes      |
+| B         | Calculation facts and API facts | ~38%    | 8/8    | yes      |
+Selected: A - It is the leanest clean grouping that preserves every code span, number, identifier, and constraint.
+
+### Preserved intact
+- 2 instructions/requirements, 6 references, 8 verbatim spans/examples, structure
+
+### How it was compressed
+- MECE grouping: calculation behavior, example output, endpoint/header, hardcoding rule, and version rule.
+- Pyramid rephrasing: used dense labels first, then exact identifiers, numbers, and constraints.
+- Removed as unrelated: reminder phrasing only.
+
+### Estimated size reduction
+~55 words -> ~31 (~44% smaller)

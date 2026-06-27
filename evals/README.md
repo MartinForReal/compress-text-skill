@@ -27,7 +27,11 @@ evals/
 │   ├── 15-ambiguous-pivot-flag.md # [held-out] unresolved choice must be flagged, not guessed
 │   ├── 16-meaningful-repetition.md# [held-out] load-bearing repetition must not be cut
 │   ├── 17-semantic-entailment.md  # [held-out] merge vague/specific pairs sharing no words
-│   └── 18-statistical-ngram.md    # [held-out] consolidate near-duplicates + drop filler
+│   ├── 18-statistical-ngram.md    # [held-out r01] consolidate near-duplicates + drop filler
+│   ├── 19-negation-exception.md   # [held-out r02] keep every buried negation/exception
+│   ├── 20-conditional-branches.md # [held-out r02] keep every branch/guard of a runbook
+│   ├── 21-numeric-fidelity.md     # [held-out r02] preserve distinct figures, drop duplicate
+│   └── 22-conflicting-facts-flag.md # [held-out r02] conflicting facts kept + flagged, not merged
 ├── functional_checks.json # Deterministic assertions + golden references per case (+ train/val split)
 ├── run_functional.py  # Functional harness (offline self-test / live model / grade rollouts)
 ├── skillopt/          # SkillOpt rollout trajectories (round-NN/baseline, round-NN/candidate)
@@ -106,10 +110,11 @@ The skill is improved with the [SkillOpt](https://microsoft.github.io/SkillOpt/)
 labelled with a `split` in `functional_checks.json`:
 
 - **`train`** (held-in) — the original `01`–`13`; used to design lenses and reflect on failures.
-- **`val`** (held-out) — fresh cases `14`–`18` in unseen domains; used **only** as the
-  acceptance gate. An edit is kept only if the `val` split improves and `train` does not regress
-  (validation-gated update). Rollout trajectories live in `skillopt/`; each round is written up
-  in `OPTIMIZATION_LOG.md`.
+- **`val`** (held-out) — fresh cases in unseen domains, added per round (`14`–`18` round 01,
+  `19`–`22` round 02); used **only** as the acceptance gate. An edit is kept only if the `val`
+  split improves and `train` does not regress (validation-gated update). When a `val` set
+  saturates it is refreshed with harder cases for the next round. Rollout trajectories live in
+  `skillopt/`; each round is written up in `OPTIMIZATION_LOG.md`.
 
 ## Extending the suite
 

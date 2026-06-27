@@ -229,5 +229,59 @@
       },
       "full": { "require_regex": ["redundan|duplicat", "%"] }
     }
+  },
+  "19-negation-exception": {
+    "split": "val",
+    "reference_output": "## Compressed text: Production log access policy\n\n- Engineers may read production logs, but must never export them to personal devices or personal cloud accounts.\n- Contractors may not read them, except with a signed current NDA and manager-granted temporary, time-boxed access.\n- Never disable audit logging, even briefly for debugging.\n\n---\n\n### How it was compressed\n- Redundancy removed: three restated 'engineers may read' sentences consolidated to one; scope-padding ('normal daily work') dropped.\n\n### Estimated size reduction\n~99 words -> ~43 (~57% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.62,
+        "must_contain_ci": ["read", "personal", "NDA", "audit logging"],
+        "require_regex": ["never", "except|unless|only if|only when|provided|as long as"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "20-conditional-branches": {
+    "split": "val",
+    "reference_output": "## Compressed text: Deployment rules\n\n- Green build: auto-deploy to staging.\n- Red build: do not deploy; page on-call.\n- Production deploys need two approvals from senior engineers.\n- Never deploy to production on a Friday or during a release freeze.\n- Failed production deploy: roll back immediately and open an incident.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated 'two approvals' rule consolidated to one.\n\n### Estimated size reduction\n~74 words -> ~42 (~43% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.72,
+        "must_contain_ci": ["staging", "on-call", "two approvals", "incident", "friday", "freeze"],
+        "must_contain_any": ["roll back", "rollback"],
+        "require_regex": ["green", "red", "never", "not deploy|don.t deploy|do not deploy"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "21-numeric-fidelity": {
+    "split": "val",
+    "reference_output": "## Compressed text: Q3 metrics summary\n\nRevenue $4.2M (up from $3.1M in Q2); active users 18,400; churn 2.3%; 1,205 support tickets closed, median resolution 6 hours; NPS 47.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated '$4.2M' revenue restatement and the vacuous closing sentiment dropped.\n\n### Estimated size reduction\n~70 words -> ~26 (~63% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "must_contain": ["2.3%"],
+        "must_contain_ci": ["$4.2m", "$3.1m", "6 hour", "47"],
+        "require_regex": ["18,?400", "1,?205"],
+        "forbid_ci": ["look solid", "team is happy"],
+        "max_count_ci": { "$4.2m": 1 }
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+  "22-conflicting-facts-flag": {
+    "split": "val",
+    "reference_output": "## Compressed text: Project brief: Apollo\n\n- Kickoff date INCONSISTENT - flagged: 'March 15' vs 'March 30', conflict unresolved.\n- Service must handle 1,000 requests/second at peak.\n- Marketing prepares the launch announcement.\n- Budget capped at $50k.\n\n---\n\n### How it was compressed\n- Redundancy removed: duplicated '1,000 requests/second' requirement consolidated to one.\n- Flagged: conflicting kickoff dates kept, not silently merged.\n\n### Estimated size reduction\n~48 words -> ~30 (~38% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.9,
+        "must_contain_ci": ["march 15", "march 30", "1,000", "$50k", "marketing"]
+      },
+      "full": {
+        "must_contain_any": ["conflict", "contradic", "inconsist", "mismatch", "discrepan", "differ", "flag", "both dates", "two dates", "unresolved", "which date", "15 or", "15 / 30", "15/30"],
+        "require_regex": ["%"]
+      }
+    }
   }
 }

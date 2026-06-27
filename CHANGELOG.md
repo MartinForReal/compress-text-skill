@@ -35,11 +35,17 @@ All notable changes to this project are documented here. The format is based on
 - **Statistical-lens refinement (round 01, validation-gated):** treat upbeat status-padding
   / vacuous sentiment ("overall, things are going well") as low-density filler. Held-out pass
   rate 4/5 → 5/5, no training regression.
+- **Aggressive-mode density (round 02, validation-gated):** `aggressive` now shortens repeated
+  long noun phrases after first mention and cuts scope-setting context that states no distinct
+  rule, fact, number, or constraint — with a caveat that never drops a load-bearing qualifier.
+  Held-out set refreshed with 4 new `val` cases (`19`–`22`: negations/exceptions, conditional
+  branches, numeric fidelity, factual-contradiction flagging); held-out ratio-gate 2/4 → 3/4 with
+  no fidelity regression and over-cut anchors (`04`/`09`) clean.
 
 ### Changed
 
-- Eval suite grows from 13 to 18 functional cases (5 held-out `val` cases for SkillOpt);
-  static validator and offline self-test both green.
+- Eval suite grows from 13 to 22 functional cases (9 held-out `val` cases for SkillOpt across two
+  rounds); static validator and offline self-test (22/22) both green.
 
 ## [0.1.0] - 2026-06-18
 
