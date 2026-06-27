@@ -57,11 +57,17 @@ All notable changes to this project are documented here. The format is based on
   docs and dedupe across them). Two new `val` cases (`27`–`28`: cross-context hoist + collapse
   repeats, merge runbooks into shared-core + deltas) with deterministic dedup checks; held-out
   1/2 → 2/2 with no-regression anchors (`03`/`04`/`16`/`09`) 4/4 clean.
+- **Compact split outputs (round 05, validation-gated — accepted):** refined the Structural lens and
+  Output template so split/merged structural outputs do not repeat the source title after the
+  `## Compressed text` heading, use compact branch-delta bullets when order is not load-bearing, and
+  omit separation-only instructions once the new structure enforces them. Two new `val` cases
+  (`29`–`30`: mixed procedure split, partner-launch API/marketing split); held-out 0/2 → 2/2 with
+  no-regression anchors (`03`/`04`/`09`/`16`/`27`/`28`) 6/6 clean.
 
 ### Changed
 
-- Eval suite grows from 13 to 28 functional cases (15 held-out `val` cases for SkillOpt across four
-  rounds); static validator and offline self-test (28/28) both green.
+- Eval suite grows from 13 to 30 functional cases (17 held-out `val` cases for SkillOpt across five
+  rounds); static validator and offline self-test (30/30) both green.
 
 ### Notes
 

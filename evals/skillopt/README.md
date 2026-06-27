@@ -16,9 +16,12 @@ skillopt/
 ├── round-03/        # REJECTED edit — kept as the evidence behind the no-ship decision
 │   ├── baseline/    # committed skill on the refreshed held-out cases (23–26), 1/4
 │   └── candidate/   # trial (since-reverted) edit on held-out (0/4) + restraint anchors (03/04/16)
-└── round-04/        # ACCEPTED edit — Structural (key-point tree) lens
-    ├── baseline/    # committed skill on the new held-out cases (27–28), 1/2
-    └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/16/09, 4/4)
+├── round-04/        # ACCEPTED edit — Structural (key-point tree) lens
+│   ├── baseline/    # committed skill on the new held-out cases (27–28), 1/2
+│   └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/16/09, 4/4)
+└── round-05/        # ACCEPTED edit — compact split/merge output shape
+    ├── baseline/    # committed skill on split-focused held-out cases (29–30), 0/2
+    └── candidate/   # edited skill on held-out (2/2) + no-regression anchors (03/04/09/16/27/28, 6/6)
 ```
 
 Each file is named `<case_id>.txt` and contains exactly what an end user would receive.
@@ -58,6 +61,15 @@ python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
 # round 04 — no-regression anchors (over-merge / over-cut risk; all clean)
 python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
   --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition,09-multi-section-doc
+
+# round 05 — split-focused held-out gate (cases 29–30): baseline 0/2 vs candidate 2/2 (improved -> edit accepted)
+python3 evals/run_functional.py --grade evals/skillopt/round-05/baseline \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
+# round 05 — no-regression anchors (title/body compactness + prior structural behavior; all clean)
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate \
+  --cases 03-already-lean,04-preserve-verbatim,09-multi-section-doc,16-meaningful-repetition,27-cross-context-keypoint-tree,28-merge-shared-core
 ```
 
 See [`../OPTIMIZATION_LOG.md`](../OPTIMIZATION_LOG.md) for the full round write-up.

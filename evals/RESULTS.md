@@ -37,7 +37,7 @@ Beyond the rubric scoring above, `run_functional.py --selftest` scores a stored 
 (`functional_checks.json`). It runs with no model/credentials and gates CI via
 `scripts/validate.sh`.
 
-**Self-test: 28/28 references PASS** (13 `train` + 15 held-out `val`).
+**Self-test: 30/30 references PASS** (13 `train` + 17 held-out `val`).
 
 ## SkillOpt held-out validation (round 01)
 
@@ -118,6 +118,23 @@ borderline case by instructing an explicit hoist of the shared core into one sta
 improved 1/2 → 2/2 with no anchor regression. Full write-up:
 [`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
 
+## SkillOpt held-out validation (round 05) — accepted: compact split outputs
+
+Round 05 probes the split side of the Structural lens with 2 new `val` cases (`29`–`30`) where one
+draft mixes distinct concerns in a single node. The baseline already split/hoisted correctly, but it
+failed the ratio gate by copying the source title into the body and using verbose nested headings for
+short branch deltas.
+
+| Skill | Held-out (val) | No-regression anchors (03/04/09/16/27/28) |
+|-------|----------------|-------------------------------------------|
+| Baseline (committed `56d1145`) | 0/2 — structurally correct but padded (`29` 0.80, `30` 0.82) | — |
+| **After output-shape edit** | **2/2** | **6/6 clean** |
+
+The accepted edit keeps the same fidelity policy but tells the Output template not to repeat the
+source title after `## Compressed text`, and to use compact branch-delta bullets for split/merged
+structural outputs when order is not load-bearing. Full write-up:
+[`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
+
 ## Notes per case
 
 - **01 — bloated-readme:** Removed filler and the duplicated "dependencies are required"
@@ -168,7 +185,7 @@ Run the static validator (offline gate):
 python3 evals/run_evals.py
 ```
 
-Run the functional harness self-test (offline, scores golden references for all 28 cases):
+Run the functional harness self-test (offline, scores golden references for all 30 cases):
 
 ```bash
 python3 evals/run_functional.py --selftest
@@ -191,6 +208,11 @@ python3 evals/run_functional.py --grade evals/skillopt/round-04/baseline \
   --cases 27-cross-context-keypoint-tree,28-merge-shared-core
 python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate \
   --cases 27-cross-context-keypoint-tree,28-merge-shared-core
+# round 05 (accepted: compact split outputs): baseline 0/2 -> candidate 2/2, anchors 6/6 clean
+python3 evals/run_functional.py --grade evals/skillopt/round-05/baseline \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate \
+  --cases 29-split-mixed-procedure,30-split-partner-launch
 ```
 
 Run the full functional cases against a live model: execute each `cases/*.md` input with its

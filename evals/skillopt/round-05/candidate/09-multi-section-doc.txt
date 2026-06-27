@@ -1,0 +1,33 @@
+## Compressed text: Project setup and run
+
+### Setup
+1. Install Node 20.
+2. Copy `.env.example` to `.env`.
+3. Set `DATABASE_URL` in `.env` to your Postgres instance; set `PORT` (default `8080`).
+
+### Run
+Run `npm start`; the app starts on configured `PORT`.
+
+### Troubleshooting
+If startup fails, check `DATABASE_URL`; missing/wrong values cause most failures.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | lifecycle: setup → run → troubleshoot | ~41% | 6/6 | yes |
+| B         | original sections with deduped facts | ~34% | 6/6 | yes |
+Selected: A - keeps the required order and removes cross-section repeats with the largest safe reduction.
+
+### Preserved intact
+- 6 instructions/requirements, 0 external references, 7 verbatim spans/examples, setup→run→troubleshooting structure
+
+### How it was compressed
+- MECE grouping: setup/config facts, run command, and troubleshooting cause each appear once
+- Redundancy removed: 4 duplicate/near-duplicate statements consolidated
+- Pyramid rephrasing: converted repeated prose into ordered setup steps plus concise run/troubleshooting notes
+- Removed as unrelated: filler and cross-reference text replaced by the ordered structure
+
+### Estimated size reduction
+~82 words -> ~48 words (~41% smaller)

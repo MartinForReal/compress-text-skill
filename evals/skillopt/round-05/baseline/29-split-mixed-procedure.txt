@@ -1,0 +1,37 @@
+## Compressed text: Operations quick guide
+
+# Operations quick guide
+
+Use the internal portal for every request; it creates the audit trail.
+
+## Production incidents
+1. Set the severity.
+2. If Sev-1 or Sev-2, page the on-call engineer.
+3. Open an incident channel.
+4. Write the timeline and postmortem within three business days.
+
+## Vendor access
+1. In the portal, submit the business justification, manager approval, and expiry date.
+2. Send the request to Security for review.
+3. Remove access when the contract ends.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared portal rule, then procedure type | ~33% | 15/15 | yes |
+| B         | Request lifecycle phases | ~27% | 15/15 | yes |
+Selected: A - it hoists the shared portal/audit-trail rule once and cleanly separates the two procedures with the largest faithful reduction.
+
+### Preserved intact
+- 10 instructions/requirements, 4 references, 0 verbatim spans/examples, title and two-procedure structure
+
+### How it was compressed
+- MECE grouping: shared portal requirement was hoisted; production incident and vendor access steps were split into separate procedures.
+- Redundancy removed: 2 duplicate/near-duplicate setup statements consolidated.
+- Pyramid rephrasing: each section leads with the rule or procedure, then lists required actions in execution order.
+- Removed as unrelated: none.
+
+### Estimated size reduction
+~97 words -> ~65 words (~33% smaller)

@@ -1,0 +1,32 @@
+## Compressed text: Onboarding — internal systems
+
+All access to internal systems requires the corporate VPN.
+
+Repository/database access:
+- Request access in `#it-help`.
+- Repository: enable 2FA on your account.
+- Database: DBA sign-off required before access is provisioned.
+
+Laptop setup:
+- Company laptops require full-disk encryption before touching any internal system.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | shared requirements + resource deltas | ~50% | 5/5 | yes |
+| B         | resource sections under a shared core | ~41% | 5/5 | yes |
+Selected: A - hoists the duplicated VPN requirement and shared access-request step, leaving only per-resource deltas.
+
+### Preserved intact
+- 5 instructions/requirements, 3 resource references, 5 verbatim spans/examples, shared-core→delta structure
+
+### How it was compressed
+- MECE grouping: one shared internal-access prerequisite, one repository/database request step, and unique repository/database/laptop requirements
+- Redundancy removed: 3 duplicate/near-duplicate statements consolidated
+- Pyramid rephrasing: led with shared requirements, then listed resource-specific deltas
+- Removed as unrelated: repeated document headings and duplicated setup prose
+
+### Estimated size reduction
+~76 words -> ~38 words (~50% smaller)

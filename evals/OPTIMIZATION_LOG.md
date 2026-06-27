@@ -394,3 +394,98 @@ python3 evals/run_functional.py --grade evals/skillopt/round-04/baseline  --case
 python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate --cases 27-cross-context-keypoint-tree,28-merge-shared-core
 python3 evals/run_functional.py --grade evals/skillopt/round-04/candidate --cases 03-already-lean,04-preserve-verbatim,16-meaningful-repetition,09-multi-section-doc
 ```
+
+---
+
+## Round 05 — ACCEPTED: compact split outputs for mixed structural nodes
+
+**Date:** follow-up to round 04. **Outcome: edit accepted.** Round 04 codified cross-context
+key-point-tree merge/dedup; this round probes the other half of the same user request: when one draft
+mixes distinct concerns in a single node, the skill should **split** it into clean branches without
+padding the body with copied headings or redundant structural instructions.
+
+### Setup
+Added 2 fresh `val` cases:
+- `29-split-mixed-procedure` — one operations guide interleaves production-incident handling and
+  vendor-access handling, with duplicated internal-portal/audit-trail setup. Correct output hoists the
+  shared setup once and splits incident vs vendor-access paths.
+- `30-split-partner-launch` — one partner-launch handoff mixes API-launch and marketing-launch work,
+  repeats the shared owner/checklist requirement, and includes a separation-only rule. Correct output
+  states the shared launch core once and splits API vs marketing deltas compactly.
+
+The checks require both behavior and restraint: all branch-specific facts must survive; duplicated
+shared points must appear once (`max_count_ci`); outputs must mention a candidate comparison and the
+split/duplicate-removal reasoning; and a ratio ceiling catches structurally correct but padded bodies.
+
+### 1–2. Rollout + score (baseline = committed skill `56d1145`)
+```
+29-split-mixed-procedure   FAIL   ratio 0.80 > 0.70
+30-split-partner-launch    FAIL   ratio 0.82 > 0.70
+Held-out gate: 0/2
+```
+**Key finding:** the round-04 Structural lens already split and hoisted correctly. Baseline failed
+only because the body stayed too padded: it copied the source `#` title immediately under the
+`## Compressed text` heading, used verbose subsection/numbered-list scaffolding for short branch
+deltas, and in case 30 restated a separation-only instruction that the split structure already made
+true. The gradient is therefore not "learn splitting" (already learned) but "emit split outputs in a
+compact shape."
+
+### 3–4. Reflect + bounded edit
+The first small edit put the guidance only inside the Structural lens. A trial candidate improved
+directionally but still missed (0/2) and regressed case 28 by 0.01, because the agent kept copying the
+body title and headings. The final accepted edit keeps the same semantic scope but moves the output
+shape rule to the **Output template**, where the agent obeyed it:
+
+- after `## Compressed text: <title>`, start with compressed content; do not repeat the source title as
+  an extra body heading;
+- for split/merged structural outputs, prefer compact branch-delta bullets (`- Branch: actions...`)
+  over nested copied headings or numbered lists when order is not load-bearing;
+- in the Structural lens, clarify "compact shared core plus branch deltas" and omit
+  separation-only instructions once the new structure enforces them.
+
+This is a bounded edit: it changes formatting and structural compactness, not fidelity policy.
+
+### 5. Validate (the gate)
+Final candidate rollout of the edited skill:
+```
+                                  baseline      candidate (edited)
+29-split-mixed-procedure          FAIL (0.80)   PASS
+30-split-partner-launch           FAIL (0.82)   PASS
+Held-out gate:                    0/2      ->   2/2   (improved)
+
+No-regression anchors:
+03-already-lean PASS · 04-preserve-verbatim PASS · 09-multi-section-doc PASS ·
+16-meaningful-repetition PASS · 27-cross-context-keypoint-tree PASS · 28-merge-shared-core PASS
+→ 6/6 clean
+```
+
+The win is edit-attributable. The accepted candidate stopped copying the source title into the body
+and used compact branch-delta bullets:
+
+```
+Use the internal portal for every request; it creates the audit trail.
+- Production incidents: ...
+- Vendor access: ...
+```
+
+instead of a duplicated title plus nested headings/lists. Prior structural wins (`27`/`28`) and
+single-text restraint anchors remained clean.
+
+### 6. Decision — ACCEPT
+Held-out improved (0/2 → 2/2) and anchors did not regress (6/6) → accept per the SkillOpt rule. The
+edit is kept in `SKILL.md`. The new cases are retained as standing split-focused structural probes.
+
+### Net effect
+| Metric | Before | After |
+|---|---|---|
+| Functional cases / self-test | 28 / 28 PASS | **30 / 30 PASS** |
+| Held-out cases (val) | 15 (14–28) | **17 (14–30)** |
+| Held-out gate this round | baseline 0/2 | **candidate 2/2** |
+| No-regression anchors (03/04/09/16/27/28) | — | 6/6 clean |
+
+### Reproduce
+```bash
+python3 evals/run_functional.py --grade evals/skillopt/round-05/baseline  --cases 29-split-mixed-procedure,30-split-partner-launch
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate --cases 29-split-mixed-procedure,30-split-partner-launch
+python3 evals/run_functional.py --grade evals/skillopt/round-05/candidate --cases 03-already-lean,04-preserve-verbatim,09-multi-section-doc,16-meaningful-repetition,27-cross-context-keypoint-tree,28-merge-shared-core
+```

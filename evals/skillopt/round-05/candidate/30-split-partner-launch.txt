@@ -1,0 +1,28 @@
+## Compressed text: Partner launch handoff
+
+Every partner launch needs a named launch owner and dated checklist.
+- API launch: send sandbox credentials, verify the OAuth redirect URI, publish the API changelog, and rotate the test secret after sandbox validation.
+- Marketing launch: secure approved logo placement, customer quote, and campaign UTM parameters; schedule social posts.
+- Keep API checklist items out of the marketing handoff.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Shared launch core + API/marketing deltas | ~29% | 10/10 | yes |
+| B         | Launch phase checklist | ~25% | 10/10 | yes |
+| C         | Owner handoff sections | ~23% | 10/10 | yes |
+Selected: A - it states shared launch requirements once and cleanly separates API work from marketing work with the shortest faithful structure.
+
+### Preserved intact
+- 10 instructions/requirements, 5 references/names, 0 verbatim spans/examples, shared core plus API/marketing branch structure
+
+### How it was compressed
+- MECE grouping: named owner and dated checklist hoisted to a shared core; API and marketing launch tasks split into branch deltas.
+- Redundancy removed: 1 duplicate shared-launch sentence consolidated.
+- Pyramid rephrasing: shared requirement first, then compact branch action lists and the separation rule.
+- Removed as unrelated: none; only duplicated launch setup wording was cut.
+
+### Estimated size reduction
+~84 words -> ~60 (~29% smaller)

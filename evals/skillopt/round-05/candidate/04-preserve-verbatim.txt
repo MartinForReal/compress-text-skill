@@ -1,0 +1,23 @@
+## Compressed text: `calculateTax(amount)`
+
+`calculateTax(amount)` returns amount × tax rate 0.0825; `calculateTax(200)` returns 16.50. POST /api/v2/tax requires header `X-Api-Key: ${API_KEY}`. Do not hardcode 0.0825 elsewhere. Endpoint version: v2, not v1.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | calculation + API constraints | ~44% | 7/7 | yes |
+| B         | examples + requirements | ~36% | 7/7 | yes |
+Selected: A - leaner while preserving every code span, number, endpoint, header, and version constraint.
+
+### Preserved intact
+- 4 instructions/requirements, 2 references, 7 verbatim spans/examples, calculation→API structure
+
+### How it was compressed
+- MECE grouping: calculation behavior/example separated from endpoint/header/version constraints
+- Pyramid rephrasing: key facts first; cut filler such as “For example” and “Please remember that”; used dense symbols
+- Removed as unrelated: filler only; no distinct facts
+
+### Estimated size reduction
+~50 words -> ~28 words (~44% smaller)

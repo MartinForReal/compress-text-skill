@@ -1,0 +1,23 @@
+## Compressed text: Run `npm test` before pushing.
+
+Run `npm test` before pushing.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | command requirement | ~0% | 2/2 | yes |
+| B         | condition then action | ~0% | 2/2 | yes |
+Selected: A - already lean; no rewrite improves size or clarity.
+
+### Preserved intact
+- 1 instruction/requirement, 0 references, 1 verbatim span/example, command order
+
+### How it was compressed
+- MECE grouping: one required action; no duplicates to consolidate
+- Pyramid rephrasing: kept the key point unchanged because it is already concise
+- Removed as unrelated: nothing
+
+### Estimated size reduction
+~5 words -> ~5 words (~0% smaller)

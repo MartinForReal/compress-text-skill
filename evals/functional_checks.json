@@ -388,5 +388,35 @@
         "require_regex": ["candidate", "hoist|redundan|duplicat"]
       }
     }
+  },
+  "29-split-mixed-procedure": {
+    "split": "val",
+    "reference_output": "## Compressed text: Operations quick guide\n\nAll requests use the internal portal to create an audit trail.\n\n- Production incidents: set severity, page on-call for Sev-1/Sev-2, open an incident channel, then write the timeline and postmortem within three business days.\n- Vendor access: collect business justification, manager approval, and expiry date; send to Security for review; remove access when the contract ends.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | procedure path | ~42% | 10/10 | yes |\n| B | source order | ~18% | 10/10 | yes |\nSelected: A - splits the mixed draft into incident and vendor-access paths while hoisting the shared portal/audit-trail setup.\n\n### How it was compressed\n- Redundancy removed: internal portal/audit-trail setup stated twice -> once.\n\n### Estimated size reduction\n~87 words -> ~50 (~42% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.70,
+        "must_contain_ci": ["severity", "sev-1", "sev-2", "incident channel", "postmortem", "three business days", "vendor access", "business justification", "manager approval", "expiry date", "security", "contract ends"],
+        "max_count_ci": {"internal portal": 1, "audit trail": 1},
+        "require_regex": ["incident", "vendor"]
+      },
+      "full": {
+        "require_regex": ["candidate", "split|separat|branch|path", "redundan|duplicat|hoist"]
+      }
+    }
+  },
+  "30-split-partner-launch": {
+    "split": "val",
+    "reference_output": "## Compressed text: Partner launch handoff\n\nEvery partner launch needs a named launch owner and dated checklist.\n\n- API launch: send sandbox credentials, verify the OAuth redirect URI, publish the API changelog, then rotate the test secret after sandbox validation.\n- Marketing launch: approve logo placement, capture a customer quote, set campaign UTM parameters, and schedule social posts.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | shared core + launch type | ~39% | 11/11 | yes |\n| B | source order | ~16% | 11/11 | yes |\nSelected: A - states shared launch requirements once and splits API work from marketing work.\n\n### How it was compressed\n- Redundancy removed: named launch owner and dated checklist collapsed from 2x to 1x.\n\n### Estimated size reduction\n~80 words -> ~49 (~39% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.70,
+        "must_contain_ci": ["launch owner", "dated checklist", "api launch", "sandbox credentials", "oauth redirect uri", "api changelog", "test secret", "sandbox validation", "marketing launch", "logo placement", "customer quote", "utm", "social posts"],
+        "max_count_ci": {"launch owner": 1, "dated checklist": 1},
+        "require_regex": ["API", "marketing"]
+      },
+      "full": {
+        "require_regex": ["candidate", "split|separat|branch|shared core", "redundan|duplicat|hoist"]
+      }
+    }
   }
 }
