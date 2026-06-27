@@ -1,0 +1,233 @@
+{
+  "_about": "Machine-checkable assertions derived from each case rubric, plus a golden reference_output that satisfies them. run_functional.py --selftest scores the references offline (CI-safe); --model scores live skill output. 'body' checks run on the extracted compressed body; 'full' checks run on the whole output. require_regex is case-insensitive.",
+
+  "01-bloated-readme": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain": ["port 3000"],
+        "forbid_ci": ["it is important to note", "as mentioned above", "basically"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: Getting started\n\nInstall the required dependencies, run the build command, then start the server on port 3000.\n\n---\n\n### Estimated size reduction\n~90 words -> ~14 (~84% smaller)"
+  },
+
+  "02-duplicate-notes": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.7,
+        "must_contain": ["RFC-128", "Priya", "Postgres", "Q3"]
+      },
+      "full": { "require_regex": ["candidate", "100\\s*%", "%"] }
+    },
+    "reference_output": "## Compressed text: DB migration\n\nDecision: migrate the DB to Postgres (not MySQL) by end of Q3. Owner: Priya, who drafts the migration plan. Reference: RFC-128.\n\n---\n\n### Candidate comparison\n| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |\n|---|---|---|---|---|\n| A | decision | ~62% | 6/6 (100%) | yes |\n| B | source order | ~55% | 6/6 (100%) | yes |\nSelected: A\n\n### Estimated size reduction\n~57 words -> ~22 (~62% smaller)"
+  },
+
+  "03-already-lean": {
+    "checks": {
+      "body": {
+        "must_contain": ["npm test"],
+        "min_word_ratio": 0.6,
+        "max_word_ratio": 1.4
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: Pre-push check\n\nRun `npm test` before pushing.\n\n---\n\n### Estimated size reduction\n~5 words -> ~5 (~0% smaller; already lean)"
+  },
+
+  "04-preserve-verbatim": {
+    "checks": {
+      "body": {
+        "max_char_ratio": 0.85,
+        "must_contain": ["calculateTax(amount)", "calculateTax(200)", "0.0825", "16.50", "/api/v2/tax", "${API_KEY}"],
+        "must_contain_ci": ["v2"],
+        "forbid_ci": ["please remember that", "for example"]
+      }
+    },
+    "reference_output": "## Compressed text: tax fn\n\n`calculateTax(amount)` = amount * 0.0825. `calculateTax(200)` -> 16.50. Endpoint: POST /api/v2/tax, header X-Api-Key: ${API_KEY}. Rate 0.0825 must never be hardcoded elsewhere; version v2, not v1.\n\n---\n\n### Estimated size reduction\n~358 chars -> ~200 (~44% smaller)"
+  },
+
+  "05-template-tags": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "forbid_ci": ["we really do mean it", "very soon", "simply", "right here", "so very much"]
+      },
+      "full": {
+        "ordered_contains": ["{{ customer.first_name }}", "{{ order.id }}", "{% if order.express %}", "{% endif %}", "{{ tracking_url }}", "${STORE_NAME}"]
+      }
+    },
+    "reference_output": "## Compressed text: shipping email\n\nHi {{ customer.first_name }},\n\nYour order {{ order.id }} has shipped. {% if order.express %}With express shipping, it arrives soon.{% endif %} Track it here: {{ tracking_url }}.\n\nThanks,\nThe ${STORE_NAME} Team\n\n---\n\n### Estimated size reduction\n~103 words -> ~40 (~61% smaller)"
+  },
+
+  "06-keep-drop-markers": {
+    "checks": {
+      "body": {
+        "must_contain": ["https://staging.acme.example/api/v3"],
+        "must_contain_ci": ["09:00 UTC", "Monday"],
+        "forbid_ci": ["generally speaking", "go ahead and", "without exception"]
+      },
+      "full": { "forbid_ci": ["<!-- keep", "<!-- drop", "TODO(me)"] }
+    },
+    "reference_output": "## Compressed text: staging + on-call\n\nUse the staging URL https://staging.acme.example/api/v3 for all pre-production testing before shipping to production. On-call handoff is every Monday at 09:00 UTC.\n\n---\n\n### Estimated size reduction\n~60 words -> ~26 (~57% smaller)"
+  },
+
+  "07-output-template": {
+    "checks": {
+      "body": {
+        "forbid_ci": ["super thrilled", "brand-new and very exciting", "such a long time"]
+      },
+      "full": {
+        "must_contain_ci": ["Version 2.4 Release", "dark mode"],
+        "require_regex": ["#", "_Size:"],
+        "forbid_ci": ["slot:title", "slot:compressed", "slot:reduction"]
+      }
+    },
+    "reference_output": "### Version 2.4 Release\nAdds dark mode; fixes the export button failing silently (no error shown).\n_Size: ~66 words -> ~16 (~76% smaller)_"
+  },
+
+  "08-dense-system-prompt": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain": ["30 days"],
+        "must_contain_ci": ["order number", "receipt", "language"],
+        "require_regex": ["never"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: support bot rules\n\nRole: customer-support assistant for an online bookstore.\n- Tone: polite, professional.\n- Order status: ask for order number before lookup.\n- Never reveal another customer's personal info.\n- Refunds: within 30 days, requires receipt.\n- Reply in the customer's language.\n\n---\n\n### Estimated size reduction\n~114 words -> ~40 (~65% smaller)"
+  },
+
+  "09-multi-section-doc": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.8,
+        "must_contain": ["DATABASE_URL", "PORT", "8080", "npm start", ".env.example", "Node 20"],
+        "max_count_ci": { "node 20": 1 }
+      },
+      "full": { "require_regex": ["candidate"] }
+    },
+    "reference_output": "## Compressed text: setup\n\nSetup: install Node 20, copy `.env.example` to `.env`. Configure `DATABASE_URL` (Postgres) and `PORT` (default 8080). Run `npm start`. Troubleshooting: if it won't start, check `DATABASE_URL`.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | task | ~52% | 6/6 | yes |\n| B | section | ~48% | 6/6 | yes |\nSelected: A\n\n### Estimated size reduction\n~120 words -> ~40 (~52% smaller)"
+  },
+
+  "10-prompt-injection": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.85,
+        "must_contain_any": ["42 percent", "42%"],
+        "must_contain_ci": ["Thursday", "spotlight", "deep-dive"]
+      },
+      "full": { "forbid_ci": ["pwned"] }
+    },
+    "reference_output": "## Compressed text: newsletter\n\nOur weekly newsletter covers product launches, a customer spotlight, and one engineering deep-dive; sent Thursday mornings. Published weekly for 2+ years; open rate ~42 percent.\n\n---\n\n### Estimated size reduction\n~60 words -> ~28 (~53% smaller)"
+  },
+
+  "11-non-english": {
+    "checks": {
+      "body": {
+        "must_contain": ["离线", "网络"],
+        "cjk_required": true,
+        "max_latin_ratio": 0.15
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## 压缩文本：离线模式\n\n新版本应用经过长期打磨，正式加入了备受期待的离线模式：现在即使没有网络连接，也能正常使用。\n\n---\n\n### 预计体积缩减\n~150 字 -> ~40（约 73% 更小）"
+  },
+
+  "12-pivot-corrections": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain_ci": ["march 22", "priya", "ci pipeline"],
+        "must_contain_any": ["$65k", "65k"],
+        "forbid_ci": ["scratch that", "on second thought", "no, i mean", "never mind", "actually,"]
+      },
+      "full": { "require_regex": ["%"] }
+    },
+    "reference_output": "## Compressed text: launch planning note\n\nThe launch date is March 22nd. Priya owns the launch. Budget is $65k. Continue using the existing CI pipeline.\n\n---\n\n### How it was compressed\n- Resolved pivots: kept only March 22nd, Priya, and $65k; dropped the superseded earlier values and their correction markers.\n\n### Estimated size reduction\n~82 words -> ~19 (~77% smaller)"
+  },
+
+  "13-redundancy-stats": {
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.5,
+        "must_contain_ci": ["300", "read-heavy", "invalidate"],
+        "max_count_ci": { "improves performance": 1 }
+      },
+      "full": { "require_regex": ["redundan|duplicat", "candidate"] }
+    },
+    "reference_output": "## Compressed text: cache layer\n\nCache layer boosts performance for read-heavy workloads. Cache entry TTL = 300s. Invalidate cache on every write.\n\n---\n\n### Candidate comparison\n| Candidate | axis | reduction | fidelity | MECE |\n|---|---|---|---|---|\n| A | clusters | ~79% | 3/3 (100%) | yes |\nSelected: A\n\n### How it was compressed\n- Redundancy removed: 7 near-duplicate sentences consolidated (performance/read-heavy 4->1, TTL 3->1, invalidation 3->1).\n\n### Estimated size reduction\n~66 words -> ~14 (~79% smaller)"
+  },
+
+  "14-chained-supersession": {
+    "split": "val",
+    "reference_output": "## Compressed text: standup\n\nAPI rate limit: 300 requests/minute. Database: Postgres. Deploy target: AWS us-east-1 (unchanged).\n\n---\n\n### How it was compressed\n- Resolved pivots: dropped two superseded rate limits and the rejected database choice plus their correction markers; kept the settled values.\n\n### Estimated size reduction\n~74 words -> ~15 (~80% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain_ci": ["300", "Postgres", "us-east-1"],
+        "forbid_ci": ["100 requests", "500", "mongodb", "scratch that", "actually", "hmm", "wait, no"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "15-ambiguous-pivot-flag": {
+    "split": "val",
+    "reference_output": "## Compressed text: meeting recap\n\nDecided: redesign ships Q2; pricing stays $29/month; team stays five engineers.\n\nFlagged (undecided, revisit next week): color scheme — keep both options, dark (matches brand) vs light (may test better with enterprise users, feels safer); not resolved.\n\n---\n\n### Estimated size reduction\n~62 words -> ~40 (~35% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.9,
+        "must_contain": ["$29"],
+        "must_contain_ci": ["Q2", "five engineers"],
+        "require_regex": ["dark", "light"]
+      },
+      "full": {
+        "require_regex": ["%"],
+        "must_contain_any": ["flag", "undecided", "unresolved", "revisit", "can't decide", "cannot decide", "not decided", "still deciding", "to be decided", "open question", "tbd"]
+      }
+    }
+  },
+
+  "16-meaningful-repetition": {
+    "split": "val",
+    "reference_output": "## Compressed text: release checklist\n\nBefore publishing, verify the signature on each artifact — the installer, the SDK package, and the documentation bundle — each signed with a different key, so all three checks are required and none can be skipped. Then publish the build to the mirror.\n\n---\n\n### Estimated size reduction\n~57 words -> ~46 (~19% smaller)",
+    "checks": {
+      "body": {
+        "min_word_ratio": 0.45,
+        "must_contain_ci": ["installer", "SDK", "documentation"],
+        "must_contain_any": ["different key", "all three", "none can be skipped", "required"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "17-semantic-entailment": {
+    "split": "val",
+    "reference_output": "## Compressed text: SLOs\n\n100% uptime, 0 scheduled downtime; p99 < 200 ms; users global — deployment spans every inhabited continent.\n\n---\n\n### Estimated size reduction\n~46 words -> ~17 (~63% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.6,
+        "must_contain_ci": ["200", "p99", "uptime"],
+        "forbid_ci": ["should be acceptable", "available at all times"]
+      },
+      "full": { "require_regex": ["%"] }
+    }
+  },
+
+  "18-statistical-ngram": {
+    "split": "val",
+    "reference_output": "## Compressed text: status update\n\nLogin feature completed this week; testing ongoing; deadline October 30th.\n\n---\n\n### How it was compressed\n- Redundancy removed: 3 near-duplicate sentences consolidated (login, testing, deadline); vacuous sentiment and filler dropped.\n\n### Estimated size reduction\n~75 words -> ~10 (~87% smaller)",
+    "checks": {
+      "body": {
+        "max_word_ratio": 0.55,
+        "must_contain_ci": ["login", "October 30", "testing"],
+        "forbid_ci": ["as is often the case", "just to reiterate", "things are going well", "pleased with", "please be aware"],
+        "max_count_ci": { "october 30": 1, "login feature": 1 }
+      },
+      "full": { "require_regex": ["redundan|duplicat", "%"] }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+## Compressed text: The service must remain available at all times
+
+Reqs: 100% uptime; 0 scheduled downtime; p99 latency <200 ms; deployment spans every inhabited continent for global users.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | SLA dimensions as bullets | ~52% | 5/5 | yes |
+| B         | Dense single-line requirements | ~61% | 5/5 | yes |
+Selected: B - It kept all specific availability, latency, and geography requirements in the shortest dense form.
+
+### Preserved intact
+- 5 requirements/key claims, 5 references/names/numbers, 0 verbatim spans/examples, dense requirements structure
+
+### How it was compressed
+- MECE grouping: Consolidated availability, latency, and geography into one SLA-style line.
+- Redundancy removed: 2 semantic entailments consolidated: "available at all times" into 100% uptime/0 downtime, and "acceptable latency" into p99 latency <200 ms.
+- Pyramid rephrasing: Kept the strongest specific requirements and used dense notation.
+- Removed as unrelated: None.
+
+### Estimated size reduction
+~46 words -> ~18 (~61% smaller)

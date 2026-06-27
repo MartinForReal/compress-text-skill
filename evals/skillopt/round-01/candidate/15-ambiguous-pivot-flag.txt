@@ -1,0 +1,32 @@
+## Compressed text: Meeting recap
+
+Meeting recap.
+
+Decided:
+- Redesign ships in Q2.
+- Pricing stays $29/month.
+- Team stays five engineers.
+
+Flagged:
+- Color scheme undecided; revisit next week. Keep both rationales: dark matches brand; light may test better with enterprise users and feels safer. The pivot is ambiguous, so no option was chosen.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Decisions vs. flagged open item | ~22% | 6/6 | yes |
+| B         | Chronological tightened recap | ~15% | 6/6 | yes |
+Selected: A - It preserved every settled decision and flagged the unresolved color-scheme pivot without guessing.
+
+### Preserved intact
+- 4 decisions/open requirements, 6 references/names/numbers, 0 verbatim spans/examples, decisions-plus-flag structure
+
+### How it was compressed
+- MECE grouping: Separated settled decisions from the unresolved color-scheme item and preserved the distinct dark/light rationales.
+- Pyramid rephrasing: Put decided items first, then the flagged ambiguity.
+- Resolved pivots: The dark/light pivot was ambiguous, so both options and rationales were kept and flagged instead of resolved.
+- Removed as unrelated: None.
+
+### Estimated size reduction
+~59 words -> ~46 (~22% smaller)

@@ -30,6 +30,32 @@ the skill on the case input and scored strictly against the case rubric.
 > Cases 12–13 were added and evaluated 2026-06-27 with the same new-session-per-case
 > method; cases 01–11 are from the 2026-06-18 run above.
 
+## Functional harness (deterministic, offline)
+
+Beyond the rubric scoring above, `run_functional.py --selftest` scores a stored golden
+`reference_output` for every case against machine-checkable assertions
+(`functional_checks.json`). It runs with no model/credentials and gates CI via
+`scripts/validate.sh`.
+
+**Self-test: 18/18 references PASS** (13 `train` + 5 held-out `val`).
+
+## SkillOpt held-out validation (round 01)
+
+Following [SkillOpt](https://microsoft.github.io/SkillOpt/), the skill was optimized with a
+held-out gate: 5 fresh `val` cases (`14`–`18`, unseen domains) measure whether edits
+*generalize*. A frozen agent rolled out the skill blind to the rubrics; outputs were graded
+deterministically (`--grade`, trajectories in [`skillopt/`](skillopt)).
+
+| Skill | Held-out (val) | Train anchors (01/03/13) |
+|-------|----------------|--------------------------|
+| Baseline (pre-edit) | 4/5 — missed `18` (kept vacuous sentiment) | — |
+| **After bounded edit** | **5/5** | **3/3 (no regression)** |
+
+The accepted edit (extend the Statistical lens + step-4 examples to treat upbeat
+status-padding as low-density filler) fixed a held-out case it was never tuned to, with no
+regression on the meaningful-repetition / already-lean / redundancy anchors. Full write-up:
+[`OPTIMIZATION_LOG.md`](OPTIMIZATION_LOG.md).
+
 ## Notes per case
 
 - **01 — bloated-readme:** Removed filler and the duplicated "dependencies are required"
@@ -80,5 +106,21 @@ Run the static validator (offline gate):
 python3 evals/run_evals.py
 ```
 
-Run the functional cases: execute each `cases/*.md` input with its `## Prompt` in a fresh
-session, then score the output against that case's `## Rubric` (every item must pass).
+Run the functional harness self-test (offline, scores golden references for all 18 cases):
+
+```bash
+python3 evals/run_functional.py --selftest
+```
+
+Re-score a SkillOpt round's held-out gate and train anchors:
+
+```bash
+python3 evals/run_functional.py --grade evals/skillopt/round-01/baseline  --split val
+python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate --split val
+python3 evals/run_functional.py --grade evals/skillopt/round-01/candidate \
+  --cases 01-bloated-readme,03-already-lean,13-redundancy-stats
+```
+
+Run the full functional cases against a live model: execute each `cases/*.md` input with its
+`## Prompt` in a fresh session, then score the output against that case's `## Rubric` (every
+item must pass), or use `run_functional.py --model` with `LLM_API_KEY` set.

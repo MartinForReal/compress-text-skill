@@ -1,0 +1,23 @@
+## Compressed text: Run `npm test` before pushing.
+
+Run `npm test` before pushing.
+
+---
+
+### Candidate comparison
+| Candidate | Grouping axis | Size reduction | Fidelity | MECE clean? |
+|-----------|---------------|----------------|----------|-------------|
+| A         | Preserve exact instruction | ~0% | 2/2 | yes |
+| B         | Shorten command wording | ~20% | 1/2 | yes |
+Selected: A - The sentence is already lean; the shorter candidate lost the exact `npm test` command.
+
+### Preserved intact
+- 1 instruction/requirement, 0 references, 1 verbatim span/example, original sentence structure
+
+### How it was compressed
+- MECE grouping: The single instruction was already atomic.
+- Pyramid rephrasing: No safe rewrite was shorter without weakening the exact command.
+- Removed as unrelated: None.
+
+### Estimated size reduction
+~5 words -> ~5 (~0% smaller)

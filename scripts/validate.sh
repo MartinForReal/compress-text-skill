@@ -23,6 +23,9 @@ PY
 echo "==> Running evaluation suite (static checks)"
 python3 evals/run_evals.py
 
+echo "==> Running functional self-test (offline golden references)"
+python3 evals/run_functional.py --selftest
+
 if command -v claude >/dev/null 2>&1; then
   echo "==> Running 'claude plugin validate --strict'"
   claude plugin validate . --strict

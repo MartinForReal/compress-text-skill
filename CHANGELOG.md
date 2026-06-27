@@ -24,6 +24,22 @@ All notable changes to this project are documented here. The format is based on
 - Two functional eval cases: `12-pivot-corrections.md` (supersession) and
   `13-redundancy-stats.md` (statistical consolidation + reporting), plus two triggering
   rows for transcript/pivot cleanup.
+- **Functional eval harness** (`evals/run_functional.py`, stdlib-only): deterministic
+  behaviour checks (`evals/functional_checks.json`) with an offline `--selftest` (scores a
+  golden reference per case; wired into `scripts/validate.sh`), a live `--model` mode, and a
+  `--grade DIR` mode for scoring rollout outputs. Supports `--split train|val|all`.
+- **SkillOpt optimization loop** ([microsoft.github.io/SkillOpt](https://microsoft.github.io/SkillOpt/)):
+  a held-out validation split (fresh cases `14`–`18`) gates skill edits, so changes are kept
+  only when they improve held-out `val` without regressing `train`. Round trajectories live in
+  `evals/skillopt/`; each round is written up in `evals/OPTIMIZATION_LOG.md`.
+- **Statistical-lens refinement (round 01, validation-gated):** treat upbeat status-padding
+  / vacuous sentiment ("overall, things are going well") as low-density filler. Held-out pass
+  rate 4/5 → 5/5, no training regression.
+
+### Changed
+
+- Eval suite grows from 13 to 18 functional cases (5 held-out `val` cases for SkillOpt);
+  static validator and offline self-test both green.
 
 ## [0.1.0] - 2026-06-18
 

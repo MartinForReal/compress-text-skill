@@ -100,11 +100,14 @@ Validate everything (manifests, skill structure, eval datasets) before publishin
 Run just the evaluation suite (offline static checks, no model required):
 
 ```bash
-python3 evals/run_evals.py
+python3 evals/run_evals.py            # structure + dataset integrity
+python3 evals/run_functional.py --selftest   # deterministic behaviour checks (18/18 cases)
 ```
 
-The suite also includes a labelled triggering dataset and functional rubric cases for
-model-judged evaluation — see [evals/README.md](evals/README.md). CI runs the validator
+The suite also includes a labelled triggering dataset, functional rubric cases for
+model-judged evaluation, and a [SkillOpt](https://microsoft.github.io/SkillOpt/)
+held-out validation loop (train/val split + `evals/OPTIMIZATION_LOG.md`) that gates skill
+edits on generalization — see [evals/README.md](evals/README.md). CI runs the validator
 and builds the bundle on every push and pull request.
 
 ## Changelog
